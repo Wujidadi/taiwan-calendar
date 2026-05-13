@@ -1,0 +1,46 @@
+/* 岱員時憲章 — 全域樣式入口 */
+
+@unocss preflights;
+@unocss default;
+
+/* 基底重置 — 呼應「傳統古典」視覺 */
+:root {
+  /* 亮色模式色票 */
+  --color-paper: #f6f0e1;
+  --color-ink: #363f43;
+  --color-crimson: #9c241d;
+  --color-gold: #a37e16;
+  --color-seal: #b1281f;
+
+  /* 字體 */
+  --font-serif: 'Noto Serif TC', 'Noto Serif CJK TC', 'Source Han Serif TC', serif;
+  --font-sans: 'Noto Sans TC', 'Noto Sans CJK TC', 'Source Han Sans TC', sans-serif;
+
+  /* 排版 */
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.dark {
+  /* 暗色模式色票 */
+  --color-paper: #1a1612;
+  --color-ink: #e8e2d4;
+  --color-crimson: #e57a73;
+  --color-gold: #d9b75a;
+  --color-seal: #e57a73;
+}
+
+html,
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  margin: 0;
+  padding: 0;
+}
+
+/* 確保連結基底樣式 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
