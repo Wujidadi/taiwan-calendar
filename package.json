@@ -13,7 +13,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "simple-git-hooks": {
     "commit-msg": "bunx commitlint --edit $1"
@@ -36,12 +39,15 @@
     "@unocss/preset-icons": "^66.6.8",
     "@unocss/preset-typography": "^66.6.8",
     "@unocss/preset-wind3": "^66.6.8",
+    "@vitest/coverage-v8": "^4.1.6",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-format": "^2.0.1",
+    "happy-dom": "^20.9.0",
     "prettier": "^3.8.3",
     "simple-git-hooks": "^2.13.1",
     "unocss": "^66.6.8",
+    "vitest": "^4.1.6",
     "vue-tsc": "^2.2.0"
   }
 }

@@ -23,6 +23,9 @@ export default {
       ],
     ],
     'subject-max-length': [2, 'always', 100],
-    'body-max-line-length': [1, 'always', 120],
+    // 繁中字數使每行字符數較高；放寬至 200 以利條列式說明
+    'body-max-line-length': [1, 'always', 200],
+    'footer-max-line-length': [1, 'always', 200],
+    'footer-leading-blank': [0],
   },
 }

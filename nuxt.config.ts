@@ -1,5 +1,7 @@
 // 岱員時憲章 — Nuxt 設定
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { fileURLToPath } from 'node:url'
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -42,6 +44,14 @@ export default defineNuxtConfig({
     classSuffix: '', // 用 .dark 而非 .dark-mode
     storageKey: 'taiwan-calendar-color-mode',
   },
+
+  // 領域層 path alias：data / astro / lunar / types 與 app/ 同層
+  alias: {
+    '#types': fileURLToPath(new URL('./types', import.meta.url)),
+    '#data': fileURLToPath(new URL('./data', import.meta.url)),
+    '#astro': fileURLToPath(new URL('./astro', import.meta.url)),
+    '#lunar': fileURLToPath(new URL('./lunar', import.meta.url)),
+  },
   routeRules: {
     '/**': { ssr: false },
   },
@@ -73,13 +83,50 @@ export default defineNuxtConfig({
   },
 
   // i18n：預設 zh-TW 無前綴，其他語系加前綴；含 hreflang
+  // 每個語系拆成多檔（core / cities / timezones / festivals / reigns / solar-terms）
   i18n: {
     defaultLocale: 'zh-tw',
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'zh-tw', language: 'zh-Hant-TW', name: '繁體中文（台灣）', file: 'zh-tw.ts' },
-      { code: 'zh-cn', language: 'zh-Hans-CN', name: '简体中文', file: 'zh-cn.ts' },
-      { code: 'en', language: 'en-US', name: 'English', file: 'en.ts' },
+      {
+        code: 'zh-tw',
+        language: 'zh-Hant-TW',
+        name: '繁體中文（台灣）',
+        files: [
+          'zh-tw/core.ts',
+          'zh-tw/cities.ts',
+          'zh-tw/timezones.ts',
+          'zh-tw/festivals.ts',
+          'zh-tw/reigns.ts',
+          'zh-tw/solar-terms.ts',
+        ],
+      },
+      {
+        code: 'zh-cn',
+        language: 'zh-Hans-CN',
+        name: '简体中文',
+        files: [
+          'zh-cn/core.ts',
+          'zh-cn/cities.ts',
+          'zh-cn/timezones.ts',
+          'zh-cn/festivals.ts',
+          'zh-cn/reigns.ts',
+          'zh-cn/solar-terms.ts',
+        ],
+      },
+      {
+        code: 'en',
+        language: 'en-US',
+        name: 'English',
+        files: [
+          'en/core.ts',
+          'en/cities.ts',
+          'en/timezones.ts',
+          'en/festivals.ts',
+          'en/reigns.ts',
+          'en/solar-terms.ts',
+        ],
+      },
     ],
   },
 })
