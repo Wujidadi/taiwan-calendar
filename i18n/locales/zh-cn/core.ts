@@ -48,4 +48,14 @@ export default {
     empty: '无数据',
     todayLabel: '今日',
   },
+
+  calendar: {
+    weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+    months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    prevMonth: '上月',
+    nextMonth: '下月',
+    lunarLabel: '农历',
+    solarTermLabel: '节气',
+    leapPrefix: '闰',
+  },
 }

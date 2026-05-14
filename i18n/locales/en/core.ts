@@ -49,4 +49,14 @@ export default {
     empty: 'No data',
     todayLabel: 'Today',
   },
+
+  calendar: {
+    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    prevMonth: 'Prev',
+    nextMonth: 'Next',
+    lunarLabel: 'Lunar',
+    solarTermLabel: 'Solar Term',
+    leapPrefix: 'Leap ',
+  },
 }

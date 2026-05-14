@@ -3,6 +3,14 @@
 const { t, locale, locales, setLocale } = useI18n()
 const colorMode = useColorMode()
 
+// hreflang alternate 連結（SEO）
+const head = useLocaleHead({ addDirAttribute: true, addSeoAttributes: true })
+useHead(() => ({
+  htmlAttrs: head.value.htmlAttrs,
+  link: head.value.link,
+  meta: head.value.meta,
+}))
+
 const availableLocales = computed(() =>
   (locales.value as Array<{ code: string; name: string }>).filter(l => l.code !== locale.value),
 )

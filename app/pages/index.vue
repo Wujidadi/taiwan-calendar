@@ -18,5 +18,13 @@ useHead({
     <p class="text-base text-ink-500 dark:text-paper-400 leading-relaxed mt-8">
       {{ t('site.description') }}
     </p>
+    <nav class="mt-10 flex flex-wrap justify-center gap-4">
+      <NuxtLink
+        :to="$localePath('/calendar')"
+        class="px-5 py-2 border border-ink-400 dark:border-paper-500 rounded hover:text-crimson hover:border-crimson"
+      >
+        {{ t('nav.calendar.month') }}
+      </NuxtLink>
+    </nav>
   </section>
 </template>

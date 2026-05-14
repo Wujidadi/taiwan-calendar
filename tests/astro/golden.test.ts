@@ -753,7 +753,7 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
       const [year, month] = input as [number, number]
       const m = new LunarMonth()
       m.calcMonth(year, month)
-      const d0 = m.days[0]
+      const d0 = m.days[0]!
       const firstTermDay = m.days.slice(0, m.monthLength).find(
         (d: Record<string, unknown>) => d.solarTermLabel,
       ) ?? null

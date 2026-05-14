@@ -53,7 +53,10 @@ export default defineNuxtConfig({
     '#lunar': fileURLToPath(new URL('./lunar', import.meta.url)),
   },
   routeRules: {
-    '/**': { ssr: false },
+    // 月曆頁為資料密集的 SPA；其餘路由預設 SSR（SSG 時可靜態預渲染）
+    '/calendar': { ssr: false },
+    '/zh-cn/calendar': { ssr: false },
+    '/en/calendar': { ssr: false },
   },
   compatibilityDate: '2026-05-13',
 
@@ -62,7 +65,7 @@ export default defineNuxtConfig({
     preset: 'github-pages',
     prerender: {
       crawlLinks: true,
-      routes: ['/'],
+      routes: ['/', '/calendar', '/zh-cn/', '/en/', '/zh-cn/calendar', '/en/calendar'],
     },
   },
 
@@ -83,8 +86,10 @@ export default defineNuxtConfig({
   },
 
   // i18n：預設 zh-TW 無前綴，其他語系加前綴；含 hreflang
+  // baseUrl 為 GitHub Pages 部署 URL（或自訂網域）；hreflang 正確運作需設定此值
   // 每個語系拆成多檔（core / cities / timezones / festivals / reigns / solar-terms）
   i18n: {
+    baseUrl: 'https://taiwan-calendar.pages.dev',
     defaultLocale: 'zh-tw',
     strategy: 'prefix_except_default',
     locales: [
