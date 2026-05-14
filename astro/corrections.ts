@@ -24,8 +24,7 @@ export function refractionFromApparentAltitude(ho: number): number {
 /**
  * 視差修正：天體地心赤道座標 → 觀測站心赤道座標。
  *
- * 為保留純函式語意，回傳新的 Spherical（原始實作為 in-place 修改）；
- * 內部數值運算與來源逐位元一致。
+ * 純函式設計，回傳新的 Spherical，不修改輸入。
  *
  * @param z 赤道座標 [赤經(rad), 赤緯(rad), 距離]
  * @param hourAngle 時角（rad）
