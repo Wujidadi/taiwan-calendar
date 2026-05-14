@@ -80,6 +80,7 @@ UnoCSS 主題色票見 `uno.config.ts`：
 - 變動較多或較複雜時，標題之外列 bullet point 說明異動摘要與各檔變動原因
 - commitlint + simple-git-hooks 會強制驗證訊息格式
 - 不使用 `--no-verify` 跳過 hook
+- commit message 不加 Co-Authored-By 署名
 
 ## 常用指令
 
