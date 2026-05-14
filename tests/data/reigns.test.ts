@@ -1,6 +1,6 @@
 // 岱員時憲章 — 年號資料完整性測試
 import { findReignByYear, reigns, reignsById } from '#data/reigns'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 describe('年號資料', () => {
   it('ID 唯一且全為 ASCII', () => {

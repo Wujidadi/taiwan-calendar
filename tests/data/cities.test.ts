@@ -1,6 +1,6 @@
 // 岱員時憲章 — 城市資料完整性測試
 import { allCities, citiesById, citiesByRegion, DEFAULT_CITY_ID, regions } from '#data/cities'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 describe('城市資料', () => {
   it('ID 全為 ASCII 且唯一', () => {

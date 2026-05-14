@@ -6,7 +6,7 @@
 //   2000 年：ΔT ≈ 63.87 秒（J2000）
 //   2026 年：ΔT ≈ 69 秒（近期實測 / 預測）
 import { computeDeltaT, deltaT } from '#astro/delta-t'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 describe('computeDeltaT', () => {
   it('1900 年約 −2.8 秒', () => {

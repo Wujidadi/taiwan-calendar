@@ -1,7 +1,7 @@
 // 岱員時憲章 — 時區資料完整性測試
 import { citiesById } from '#data/cities'
 import { DEFAULT_TIMEZONE_ID, timezones, timezonesById } from '#data/timezones'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 describe('時區資料', () => {
   it('ID 全為 ASCII 且唯一', () => {

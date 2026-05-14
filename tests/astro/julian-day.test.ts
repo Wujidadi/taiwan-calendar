@@ -14,28 +14,28 @@ import {
   julianDayToGregorian,
   julianDayToWeekday,
 } from '#astro/julian-day'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 describe('gregorianToJulianDay', () => {
   it('J2000 (2000-01-01 12:00) = 2451545.0', () => {
-    expect(gregorianToJulianDay(2000, 1, 1.5)).toBe(J2000)
+    expect(gregorianToJulianDay(2000, 1, 1.5)).toBe(J2000 as never)
   })
 
   it('Unix epoch (1970-01-01 00:00) = 2440587.5', () => {
-    expect(gregorianToJulianDay(1970, 1, 1)).toBe(2440587.5)
+    expect(gregorianToJulianDay(1970, 1, 1)).toBe(2440587.5 as never)
   })
 
   it('格里曆首日 (1582-10-15 00:00) = 2299160.5', () => {
-    expect(gregorianToJulianDay(1582, 10, 15)).toBe(2299160.5)
+    expect(gregorianToJulianDay(1582, 10, 15)).toBe(2299160.5 as never)
   })
 
   it('儒略曆末日 (1582-10-04 00:00) = 2299159.5', () => {
-    expect(gregorianToJulianDay(1582, 10, 4)).toBe(2299159.5)
+    expect(gregorianToJulianDay(1582, 10, 4)).toBe(2299159.5 as never)
   })
 
   it('小數天可表時分秒：1.5 = 中午', () => {
-    const noon = gregorianToJulianDay(2026, 5, 13.5)
-    const midnight = gregorianToJulianDay(2026, 5, 13)
+    const noon = gregorianToJulianDay(2026, 5, 13.5) as number
+    const midnight = gregorianToJulianDay(2026, 5, 13) as number
     expect(noon - midnight).toBeCloseTo(0.5)
   })
 })

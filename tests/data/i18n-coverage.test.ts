@@ -23,7 +23,7 @@ import zhTwFestivals from '../../i18n/locales/zh-tw/festivals'
 import zhTwReigns from '../../i18n/locales/zh-tw/reigns'
 import zhTwSolarTerms from '../../i18n/locales/zh-tw/solar-terms'
 import zhTwTimezones from '../../i18n/locales/zh-tw/timezones'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 const locales = [
   {

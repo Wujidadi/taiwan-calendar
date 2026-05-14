@@ -7,7 +7,7 @@ import {
   normalizeAngleSigned,
   sphericalToCartesian,
 } from '#astro/math'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 
 const TWO_PI = Math.PI * 2
 

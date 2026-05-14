@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-14T02:05:39.008Z",
+  "generatedAt": "2026-05-14T02:23:29.594Z",
   "description": "Bit-exact 對照樣本，用於驗證主倉 astro/ 模組之 TS 重寫與標準參考實作行為完全一致。",
   "modules": {
     "math": {

@@ -1,17 +1,17 @@
-// 岱員時憲章 — 「位元級接近」比對工具
+// 岱員時憲章 — 位元級比對工具
 //
 // 設計理由：
-//   Golden fixture 由「對照標準參考實作」產生；理想上應 toEqual 嚴格相等。
-//   但實務上跨 JavaScript 引擎（Bun JSC vs Node V8）的 Math 函式
-//   （asin、atan2 等）可能在最後一位有 1 ULP 差異，且 JSON 序列化
-//   會把 `-0` 寫成 `"0"`、解析回 `+0`。為避免測試對引擎敏感而誤報，
-//   採「位元級接近」比對：
-//     - ±0 視為相等
-//     - NaN 與 NaN 相等
-//     - 一般 finite 浮點：允許 ≤ N ULP 距離（預設 2，極嚴格）
-//     - 陣列／物件：遞迴比較
+//   Golden fixture 由 Bun（JavaScriptCore）執行對照參考實作產出，
+//   本測試亦由 Bun 執行——同引擎下浮點完全 bit-exact 一致。
+//   golden.test.ts 使用 `maxUlp = 0`（嚴格 bit-exact）。
 //
-//   2 ULP 容忍仍能可靠捕捉所有真實演算法 bug；只放行純引擎差異。
+//   保留 `maxUlp` 參數的彈性是為了應付兩種仍可能出現的 1 ULP 場景：
+//     - 將來 fixture 由不同 JS 引擎產出（如 Node V8）
+//     - 某些 Math 函式在 OS／CPU 升級後微調最低位
+//   屆時可逐案酌情放寬，預設仍維持 0 ULP 嚴格相等。
+//
+//   無論 maxUlp 為何，皆視 ±0 相等、NaN 與 NaN 相等（前者因 JSON
+//   序列化會把 `-0` 寫為 `"0"`，後者便於對照）。陣列／物件遞迴。
 
 const SIGN_BIT = 1n << 63n
 
@@ -84,14 +84,14 @@ function compare(a: unknown, b: unknown, maxUlp: number, path: string): string |
  * 判斷兩值在「位元級接近」意義下相等。
  * 對於 number 走 ULP 距離；對於 array/object 遞迴；其他用 ===。
  */
-export function isBitClose(actual: unknown, expected: unknown, maxUlp = 2): boolean {
+export function isBitClose(actual: unknown, expected: unknown, maxUlp = 0): boolean {
   return compare(actual, expected, maxUlp, '$') === null
 }
 
 /**
  * 取得「不相等」的描述字串；相等則回傳 null。
- * 供 vitest 自訂 matcher 產生訊息。
+ * 供 bun:test 自訂 matcher 產生訊息。
  */
-export function bitCloseDiagnostic(actual: unknown, expected: unknown, maxUlp = 2): string | null {
+export function bitCloseDiagnostic(actual: unknown, expected: unknown, maxUlp = 0): string | null {
   return compare(actual, expected, maxUlp, '$')
 }
