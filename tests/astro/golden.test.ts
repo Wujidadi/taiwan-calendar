@@ -87,6 +87,9 @@ import {
   solarEclipseLocal,
 } from '#astro/solar-eclipse'
 import { earthCoord, evalVSOP87, planetCoord, plutoCoord } from '#astro/vsop87'
+import { shuoQiCalculator } from '#lunar/ssq'
+import { preciseSolarTermFromLongitude, preciseNewMoonFromLongitude } from '#lunar/chinese-base'
+import { LunarMonth } from '#lunar/lunar-month'
 import type { JulianDay } from '#types/time'
 import { describe, expect, it } from 'bun:test'
 import fixtureJson from '../fixtures/astro-golden.json' with { type: 'json' }
@@ -204,6 +207,17 @@ const fixture = fixtureJson as unknown as {
       fastSolarEclipseSearch: Cases
       besselianFeature: Cases
       localSecMax: Cases
+    }
+    ssq: {
+      calc: Cases
+      calcYear: Cases
+    }
+    chineseBase: {
+      preciseSolarTermFromLongitude: Cases
+      preciseNewMoonFromLongitude: Cases
+    }
+    lunarMonth: {
+      calcMonth: Cases
     }
   }
 }
@@ -689,6 +703,83 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
     it.each(se.localSecMax)('localSecMax: $description', ({ input, expected }) => {
       const [jd, L, fa, high] = input as readonly [number, number, number, number]
       const result = solarEclipseLocal.secMax(jd, L, fa, high)
+      expect(result).toBeBitExact(expected)
+    })
+  })
+
+  describe('ssq', () => {
+    const s = fixture.modules.ssq
+
+    it.each(s.calc)('calc: $description', ({ input, expected }) => {
+      const [jd, isSolarTerm] = input as [number, boolean]
+      expect(shuoQiCalculator.calc(jd, isSolarTerm)).toBeBitExact(expected)
+    })
+
+    it.each(s.calcYear)('calcYear: $description', ({ input, expected }) => {
+      shuoQiCalculator.calcYear(input as number)
+      const result = {
+        centralQiList: [...shuoQiCalculator.centralQiList],
+        newMoonList:   [...shuoQiCalculator.newMoonList],
+        leapMonth:     shuoQiCalculator.leapMonth,
+        monthLengths:  [...shuoQiCalculator.monthLengths],
+        monthNames:    [...shuoQiCalculator.monthNames],
+      }
+      expect(result).toBeBitExact(expected)
+    })
+  })
+
+  describe('chinese-base', () => {
+    const cb = fixture.modules.chineseBase
+
+    it.each(cb.preciseSolarTermFromLongitude)(
+      'preciseSolarTermFromLongitude: $description',
+      ({ input, expected }) => {
+        expect(preciseSolarTermFromLongitude(input as number)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(cb.preciseNewMoonFromLongitude)(
+      'preciseNewMoonFromLongitude: $description',
+      ({ input, expected }) => {
+        expect(preciseNewMoonFromLongitude(input as number)).toBeBitExact(expected)
+      },
+    )
+  })
+
+  describe('lunar-month', () => {
+    const lm = fixture.modules.lunarMonth
+
+    it.each(lm.calcMonth)('calcMonth: $description', ({ input, expected }) => {
+      const [year, month] = input as [number, number]
+      const m = new LunarMonth()
+      m.calcMonth(year, month)
+      const d0 = m.days[0]
+      const firstTermDay = m.days.slice(0, m.monthLength).find(
+        (d: Record<string, unknown>) => d.solarTermLabel,
+      ) ?? null
+      const result = {
+        monthLength: m.monthLength,
+        day0: {
+          lunarMonthName:   d0.lunarMonthName,
+          lunarDayName:     d0.lunarDayName,
+          lunarYearGanZhi:  d0.lunarYearGanZhi,
+          lunarYearGanZhi2: d0.lunarYearGanZhi2,
+          lunarMonthGanZhi: d0.lunarMonthGanZhi,
+          lunarDayGanZhi:   d0.lunarDayGanZhi,
+          lunarYearHuangdi: d0.lunarYearHuangdi,
+          zodiacSign:       d0.zodiacSign,
+          hijriYear:        d0.hijriYear,
+          hijriMonth:       d0.hijriMonth,
+          hijriDay:         d0.hijriDay,
+        },
+        firstSolarTerm: firstTermDay
+          ? {
+              dayIndex:       firstTermDay.dayIndex,
+              solarTermLabel: firstTermDay.solarTermLabel,
+              solarTermJD:    firstTermDay.solarTermJD,
+            }
+          : null,
+      }
       expect(result).toBeBitExact(expected)
     })
   })

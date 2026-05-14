@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-14T04:39:23.099Z",
+  "generatedAt": "2026-05-14T06:04:04.972Z",
   "description": "Bit-exact 對照樣本，用於驗證主倉 astro/ 模組之 TS 重寫與標準參考實作行為完全一致。",
   "modules": {
     "math": {
@@ -4552,6 +4552,435 @@
             "sun_s": 7298.442145101018,
             "sun_j": 7298.883227580592,
             "LX": "偏"
+          }
+        }
+      ]
+    },
+    "ssq": {
+      "calc": [
+        {
+          "description": "節氣 JD=8400（2023 附近）",
+          "input": [
+            8400,
+            true
+          ],
+          "expected": 8405
+        },
+        {
+          "description": "合朔 JD=9131（2025 附近）",
+          "input": [
+            9131,
+            false
+          ],
+          "expected": 9131
+        },
+        {
+          "description": "節氣 JD=3000（歷史日期）",
+          "input": [
+            3000,
+            true
+          ],
+          "expected": 3001
+        },
+        {
+          "description": "合朔 JD=−10000（遠古）",
+          "input": [
+            -10000,
+            false
+          ],
+          "expected": -10006
+        },
+        {
+          "description": "節氣 JD=15000（遠未來）",
+          "input": [
+            15000,
+            true
+          ],
+          "expected": 14995
+        }
+      ],
+      "calcYear": [
+        {
+          "description": "JD=8400（閏四月）",
+          "input": 8400,
+          "expected": {
+            "centralQiList": [
+              8391,
+              8405,
+              8420,
+              8435,
+              8450,
+              8465,
+              8480,
+              8495,
+              8510,
+              8526,
+              8541,
+              8557,
+              8572,
+              8588,
+              8604,
+              8620,
+              8635,
+              8651,
+              8666,
+              8681,
+              8697,
+              8712,
+              8726,
+              8741,
+              8756
+            ],
+            "newMoonList": [
+              8363,
+              8392,
+              8422,
+              8451,
+              8481,
+              8510,
+              8539,
+              8569,
+              8599,
+              8628,
+              8658,
+              8688,
+              8717,
+              8747,
+              8776
+            ],
+            "leapMonth": 4,
+            "monthLengths": [
+              29,
+              30,
+              29,
+              30,
+              29,
+              29,
+              30,
+              30,
+              29,
+              30,
+              30,
+              29,
+              30,
+              29
+            ],
+            "monthNames": [
+              "十一",
+              "十二",
+              "正",
+              "二",
+              "二",
+              "三",
+              "四",
+              "五",
+              "六",
+              "七",
+              "八",
+              "九",
+              "十",
+              "十一"
+            ]
+          }
+        },
+        {
+          "description": "JD=9131（2025）",
+          "input": 9131,
+          "expected": {
+            "centralQiList": [
+              9121,
+              9136,
+              9151,
+              9165,
+              9180,
+              9195,
+              9210,
+              9225,
+              9241,
+              9256,
+              9272,
+              9287,
+              9303,
+              9319,
+              9334,
+              9350,
+              9366,
+              9381,
+              9397,
+              9412,
+              9427,
+              9442,
+              9457,
+              9472,
+              9486
+            ],
+            "newMoonList": [
+              9101,
+              9131,
+              9160,
+              9190,
+              9219,
+              9249,
+              9278,
+              9307,
+              9337,
+              9366,
+              9396,
+              9425,
+              9455,
+              9485,
+              9515
+            ],
+            "leapMonth": 8,
+            "monthLengths": [
+              30,
+              29,
+              30,
+              29,
+              30,
+              29,
+              29,
+              30,
+              29,
+              30,
+              29,
+              30,
+              30,
+              30
+            ],
+            "monthNames": [
+              "十一",
+              "十二",
+              "正",
+              "二",
+              "三",
+              "四",
+              "五",
+              "六",
+              "六",
+              "七",
+              "八",
+              "九",
+              "十",
+              "十一"
+            ]
+          }
+        },
+        {
+          "description": "JD=0（J2000）",
+          "input": 0,
+          "expected": {
+            "centralQiList": [
+              -10,
+              5,
+              20,
+              34,
+              49,
+              64,
+              79,
+              94,
+              110,
+              125,
+              141,
+              156,
+              172,
+              188,
+              203,
+              219,
+              235,
+              250,
+              266,
+              281,
+              296,
+              311,
+              326,
+              341,
+              355
+            ],
+            "newMoonList": [
+              -24,
+              6,
+              35,
+              65,
+              95,
+              124,
+              153,
+              183,
+              212,
+              241,
+              271,
+              300,
+              330,
+              360,
+              389
+            ],
+            "leapMonth": 0,
+            "monthLengths": [
+              30,
+              29,
+              30,
+              30,
+              29,
+              29,
+              30,
+              29,
+              29,
+              30,
+              29,
+              30,
+              30,
+              29
+            ],
+            "monthNames": [
+              "十一",
+              "十二",
+              "正",
+              "二",
+              "三",
+              "四",
+              "五",
+              "六",
+              "七",
+              "八",
+              "九",
+              "十",
+              "十一",
+              "十二"
+            ]
+          }
+        }
+      ]
+    },
+    "chineseBase": {
+      "preciseSolarTermFromLongitude": [
+        {
+          "description": "冬至 W=3π/2",
+          "input": 4.71238898038469,
+          "expected": -9.844583314513368
+        },
+        {
+          "description": "春分 W=0",
+          "input": 0,
+          "expected": -286.0931697206699
+        },
+        {
+          "description": "夏至 W=π/2",
+          "input": 1.5707963267948966,
+          "expected": -193.34089283153745
+        },
+        {
+          "description": "秋分 W=π",
+          "input": 3.141592653589793,
+          "expected": -99.68644516886638
+        }
+      ],
+      "preciseNewMoonFromLongitude": [
+        {
+          "description": "W=0（朔）",
+          "input": 0,
+          "expected": 5.592804594993741
+        },
+        {
+          "description": "W=π（望）",
+          "input": 3.141592653589793,
+          "expected": 20.02808240621049
+        },
+        {
+          "description": "W=π/2（上弦）",
+          "input": 1.5707963267948966,
+          "expected": 13.398738489773871
+        },
+        {
+          "description": "W=2π（次朔）",
+          "input": 6.283185307179586,
+          "expected": 35.37726942379526
+        }
+      ]
+    },
+    "lunarMonth": {
+      "calcMonth": [
+        {
+          "description": "2026 年 5 月",
+          "input": [
+            2026,
+            5
+          ],
+          "expected": {
+            "monthLength": 31,
+            "day0": {
+              "lunarMonthName": "三",
+              "lunarDayName": "十五",
+              "lunarYearGanZhi": "丙午",
+              "lunarYearGanZhi2": "丙午",
+              "lunarMonthGanZhi": "壬辰",
+              "lunarDayGanZhi": "乙亥",
+              "lunarYearHuangdi": 4724,
+              "zodiacSign": "金牛座",
+              "hijriYear": 1447,
+              "hijriMonth": 11,
+              "hijriDay": 14
+            },
+            "firstSolarTerm": {
+              "dayIndex": 4,
+              "solarTermLabel": "立夏",
+              "solarTermJD": 9621.32550944474
+            }
+          }
+        },
+        {
+          "description": "2000 年 1 月",
+          "input": [
+            2000,
+            1
+          ],
+          "expected": {
+            "monthLength": 31,
+            "day0": {
+              "lunarMonthName": "十一",
+              "lunarDayName": "廿五",
+              "lunarYearGanZhi": "己卯",
+              "lunarYearGanZhi2": "己卯",
+              "lunarMonthGanZhi": "丙子",
+              "lunarDayGanZhi": "戊午",
+              "lunarYearHuangdi": 4697,
+              "zodiacSign": "摩羯座",
+              "hijriYear": 1420,
+              "hijriMonth": 9,
+              "hijriDay": 24
+            },
+            "firstSolarTerm": {
+              "dayIndex": 5,
+              "solarTermLabel": "小寒",
+              "solarTermJD": 4.875487303514792
+            }
+          }
+        },
+        {
+          "description": "1912 年 1 月",
+          "input": [
+            1912,
+            1
+          ],
+          "expected": {
+            "monthLength": 31,
+            "day0": {
+              "lunarMonthName": "十一",
+              "lunarDayName": "十三",
+              "lunarYearGanZhi": "辛亥",
+              "lunarYearGanZhi2": "辛亥",
+              "lunarMonthGanZhi": "庚子",
+              "lunarDayGanZhi": "丙子",
+              "lunarYearHuangdi": 4609,
+              "zodiacSign": "摩羯座",
+              "hijriYear": 1330,
+              "hijriMonth": 1,
+              "hijriDay": 11
+            },
+            "firstSolarTerm": {
+              "dayIndex": 6,
+              "solarTermLabel": "小寒",
+              "solarTermJD": -32136.49480137358
+            }
           }
         }
       ]
