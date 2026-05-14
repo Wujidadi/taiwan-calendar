@@ -19,7 +19,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   // 應用程式 metadata
+  // baseURL：dev = '/'，GitHub Pages 建置時由 CI 注入 NUXT_APP_BASE_URL=/taiwan-calendar/
   app: {
+    baseURL: process.env.NUXT_APP_BASE_URL ?? '/',
     head: {
       title: '岱員時憲章',
       htmlAttrs: { lang: 'zh-Hant-TW' },
@@ -90,7 +92,8 @@ export default defineNuxtConfig({
   // baseUrl 為 GitHub Pages 部署 URL（或自訂網域）；hreflang 正確運作需設定此值
   // 每個語系拆成多檔（core / cities / timezones / festivals / reigns / solar-terms）
   i18n: {
-    baseUrl: 'https://taiwan-calendar.pages.dev',
+    // baseUrl 只填網域根，subpath（/taiwan-calendar-notes/）由 app.baseURL 提供
+    baseUrl: 'https://wujidadi.github.io',
     defaultLocale: 'zh-tw',
     strategy: 'prefix_except_default',
     locales: [
