@@ -1,4 +1,3 @@
-// 岱員時憲章 — 城市資料完整性測試
 import { allCities, citiesById, citiesByRegion, DEFAULT_CITY_ID, regions } from '#data/cities'
 import { describe, expect, it } from 'bun:test'
 

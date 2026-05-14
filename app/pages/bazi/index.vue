@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 八字命盤頁
 import { computeBazi } from '#lunar/chinese-base'
 import { J2000 } from '#astro/constants'
 import { gregorianToJulianDay } from '#astro/julian-day'

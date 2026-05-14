@@ -1,5 +1,3 @@
-// 岱員時憲章 — 位元級比對工具
-//
 // 設計理由：
 //   Golden fixture 由 Bun（JavaScriptCore）執行對照參考實作產出，
 //   本測試亦由 Bun 執行——同引擎下浮點完全 bit-exact 一致。

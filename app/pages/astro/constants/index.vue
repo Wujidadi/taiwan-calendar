@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 天文常數頁
 import {
   AU_KM,
   EARTH_EQUATORIAL_RADIUS_KM,

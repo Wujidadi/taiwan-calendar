@@ -1,4 +1,3 @@
-// 岱員時憲章 — Reign titles and dynasties (English)
 // Names follow the conventions of Encyclopaedia Britannica / Cambridge History of China
 export default {
   dynasties: {

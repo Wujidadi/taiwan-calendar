@@ -1,4 +1,3 @@
-// 岱員時憲章 — i18n 字典涵蓋率測試
 // 驗證所有資料層 ID 在三語系字典中都有對應條目
 import { allCities, regions } from '#data/cities'
 import { festivals } from '#data/festivals'

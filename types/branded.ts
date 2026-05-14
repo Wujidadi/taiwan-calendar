@@ -1,4 +1,3 @@
-// 岱員時憲章 — Branded type 工具
 // 用法：type Latitude = Brand<number, 'Latitude'>
 // 這讓 number 與 Latitude / Longitude / JulianDay 互不相通，避免單位混淆
 

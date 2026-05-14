@@ -1,4 +1,3 @@
-// 岱員時憲章 — Festivals (English)
 export default {
   festivalCategories: {
     'tw-statutory': 'Taiwan Public Holidays',

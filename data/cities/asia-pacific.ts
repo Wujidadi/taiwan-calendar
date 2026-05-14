@@ -1,4 +1,3 @@
-// 岱員時憲章 — 亞太重點城市
 // 涵蓋日韓、東南亞、南亞、大洋洲主要城市
 import { assignSortIndex, coords, tz } from './_helpers'
 

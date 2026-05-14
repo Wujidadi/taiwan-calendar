@@ -1,4 +1,3 @@
-// 岱員時憲章 — 二十四节气（简体）
 export default {
   solarTerms: {
     dongzhi: '冬至',

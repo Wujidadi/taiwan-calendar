@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 月曆頁
 import { LunarMonth } from '#lunar/lunar-month'
 
 const { t, tm, locale } = useI18n()

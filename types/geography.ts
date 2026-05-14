@@ -1,4 +1,3 @@
-// 岱員時憲章 — 地理與行政區型別
 import type { Brand } from './branded'
 
 /** 緯度（−90 到 +90，北正南負） */

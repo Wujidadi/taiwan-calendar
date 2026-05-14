@@ -1,4 +1,3 @@
-// 岱員時憲章 — Timezones (English)
 export default {
   timezones: {
     'taipei-time': 'Taipei Time',

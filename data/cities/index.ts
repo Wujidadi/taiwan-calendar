@@ -1,4 +1,3 @@
-// 岱員時憲章 — 全球城市資料總入口
 // 區域排序：台灣本位 → 港澳 → 中國大陸 → 亞太 → 美洲 → 歐洲 → 其他國家首都
 import type { City, Region, RegionKey } from '#types/geography'
 import { americasCities } from './americas'

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 升降頁（日月升中降時刻）
 import { multiDayRiseTransitSet } from '#astro/rise-set'
 import { gregorianToJulianDay } from '#astro/julian-day'
 import { J2000, DEG_TO_RAD } from '#astro/constants'

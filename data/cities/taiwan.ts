@@ -1,4 +1,3 @@
-// 岱員時憲章 — 台灣 22 一級行政區
 // 座標：縣市政府所在地
 // 排序：6 都（北→南）→ 3 市（北→南）→ 13 縣（西部 N→S → 東部 N→S → 離島）
 import { assignSortIndex, coords, tz } from './_helpers'

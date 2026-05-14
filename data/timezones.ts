@@ -1,4 +1,3 @@
-// 岱員時憲章 — 時區資料
 // 以 IANA tzdb 為基準。實際時間換算由 Intl.DateTimeFormat / Temporal API 處理；
 // 此處只儲存「給人看」與「給程式分類」的 metadata。
 //

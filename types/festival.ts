@@ -1,5 +1,3 @@
-// 岱員時憲章 — 節日與節氣型別
-
 /** 節日分類 */
 export type FestivalCategory =
   | 'tw-statutory' // 台灣國定假日

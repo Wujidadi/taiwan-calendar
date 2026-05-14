@@ -1,5 +1,3 @@
-// 岱員時憲章 — 農曆基礎計算
-
 import { TWO_PI } from '../astro/constants'
 import { deltaT } from '../astro/delta-t'
 import { formatTimeOfDay } from '../astro/julian-day'

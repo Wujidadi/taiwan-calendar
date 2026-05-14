@@ -1,4 +1,3 @@
-// 岱員時憲章 — 节日（简体）
 export default {
   festivalCategories: {
     'tw-statutory': '台湾法定假日',

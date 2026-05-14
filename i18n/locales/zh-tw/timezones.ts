@@ -1,4 +1,3 @@
-// 岱員時憲章 — 時區（繁中／台灣）
 export default {
   timezones: {
     'taipei-time': '台北時間',

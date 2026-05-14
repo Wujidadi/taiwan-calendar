@@ -1,7 +1,5 @@
-// 岱員時憲章 — 日食計算
-//
-// 原版為三個元件：fastSolarEclipseSearch（獨立函式）、solarEclipseBesselian（貝塞爾要素計算）、
-// solarEclipseLocal（地方日食）。本移植以 TypeScript class 保留快取與狀態機設計。
+// fastSolarEclipseSearch（獨立函式）、SolarEclipseBesselian（貝塞爾要素計算）、
+// SolarEclipseLocal（地方日食）三個元件，以 class 保留快取與狀態機設計。
 
 import {
   AU_KM,
@@ -1182,6 +1180,6 @@ export class SolarEclipseLocal {
   }
 }
 
-/** 全域預設單例（對應原版 solarEclipseBesselian / solarEclipseLocal） */
+/** 全域預設單例 */
 export const solarEclipseBesselian = new SolarEclipseBesselian()
 export const solarEclipseLocal = new SolarEclipseLocal(solarEclipseBesselian)

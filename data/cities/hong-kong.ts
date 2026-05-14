@@ -1,4 +1,3 @@
-// 岱員時憲章 — 香港
 import { assignSortIndex, coords, tz } from './_helpers'
 
 const HK = 'HK'

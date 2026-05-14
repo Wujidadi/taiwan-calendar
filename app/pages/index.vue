@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 首頁今日資訊看板
 import { LunarMonth } from '#lunar/lunar-month'
 import { sunRiseTransitSet } from '#astro/rise-set'
 import { J2000 } from '#astro/constants'

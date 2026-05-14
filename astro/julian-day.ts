@@ -1,5 +1,3 @@
-// 岱員時憲章 — 儒略日換算與日期工具
-//
 // 所有函式皆為純函式：
 //   - `gregorianToJulianDay(y, m, d)`：公曆 → 儒略日；`d` 可帶小數天
 //   - `julianDayToGregorian(jd)`：儒略日 → 公曆 { year, month, day, hour, minute, second }

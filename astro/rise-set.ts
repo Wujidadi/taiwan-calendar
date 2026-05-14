@@ -1,9 +1,5 @@
-// 岱員時憲章 — 日月升中天降時刻計算
-//
-// 原版為含可變狀態（longitude、latitude、deltaT、obliquity）的單例物件；
-// 本移植改為純函式形式，觀測者位置透過不可變 Observer 參數傳入，
+// 純函式設計；觀測者位置透過不可變 Observer 參數傳入，
 // deltaT 與 obliquity 在函式內依 jd 動態計算。
-//
 // 不考慮氣溫與氣壓的大氣折射修正；若需高精度折射請改用 corrections.ts。
 
 import { EARTH_EQUATORIAL_RADIUS_KM, RAD_TO_ARCSEC, TWO_PI } from './constants'
@@ -193,7 +189,7 @@ export function moonRiseTransitSet(jd: number, observer: Observer): MoonRTSResul
   j += (r0.H0 - r0.H) / sv
   z += (0 - r0.H) / sv
   x += (Math.PI - r0.H) / sv
-  // c 與 h 保持初始 jd 值（原版 moonRTS 中從未修改這兩個欄位）
+  // c 與 h 在整個迭代過程中保持初始 jd 值不變
 
   const rs = computeMoonCoord(s, dtDays, obliquity, observer, true)
   s += normalizeAngleSigned(-rs.H0 - rs.H) / sv

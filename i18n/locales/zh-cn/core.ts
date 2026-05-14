@@ -1,4 +1,3 @@
-// 岱員時憲章 — 简体中文字典
 export default {
   site: {
     name: '岱員時憲章',

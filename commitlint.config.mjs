@@ -1,4 +1,3 @@
-// 岱員時憲章 — commitlint 設定
 // 採 Conventional Commits 規範
 // https://www.conventionalcommits.org/
 export default {

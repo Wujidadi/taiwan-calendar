@@ -1,4 +1,3 @@
-// 岱員時憲章 — 時間與紀年型別
 import type { Brand } from './branded'
 import type { IanaTimezone } from './geography'
 

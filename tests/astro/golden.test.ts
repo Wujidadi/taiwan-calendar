@@ -1,5 +1,3 @@
-// 岱員時憲章 — 演算法層 bit-exact 對照測試
-//
 // 此測試載入 tests/fixtures/astro-golden.json，逐案比對主倉 astro/ 模組之輸出
 // 與標準參考實作的期望值，採嚴格 bit-exact（0 ULP 容忍）。
 //

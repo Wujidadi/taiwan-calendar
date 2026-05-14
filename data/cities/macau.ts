@@ -1,4 +1,3 @@
-// 岱員時憲章 — 澳門
 import { assignSortIndex, coords, tz } from './_helpers'
 
 const MO = 'MO'

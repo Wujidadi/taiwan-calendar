@@ -1,5 +1,3 @@
-// 岱員時憲章 — 歲差（precession）模型與座標變換
-//
 // 支援三種歲差模型：
 //   - IAU 1976（Lieske et al. 1977）
 //   - IAU 2000（Lieske 1979 + IAU 2000 修正）

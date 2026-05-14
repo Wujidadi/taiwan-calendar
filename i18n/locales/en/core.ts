@@ -1,4 +1,3 @@
-// 岱員時憲章 — English locale (Tâi-uân Sî-hiàn-tsiong)
 export default {
   site: {
     name: 'Tâi-uân Sî-hiàn-tsiong',

@@ -1,4 +1,3 @@
-// 岱員時憲章 — 歐洲重點城市
 import { assignSortIndex, coords, tz } from './_helpers'
 
 const REGION = 'europe' as const

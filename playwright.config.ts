@@ -1,4 +1,3 @@
-// 岱員時憲章 — Playwright E2E 設定
 import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({

@@ -1,4 +1,3 @@
-// 岱員時憲章 — 角度與球面工具測試
 import {
   angularSeparation,
   balancedMod,

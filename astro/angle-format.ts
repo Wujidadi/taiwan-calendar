@@ -1,8 +1,5 @@
-// 岱員時憲章 — 弧度⇄字串格式化工具
-//
-// 原版依賴 i18n 取單位字元；移植後改為接受 AngleUnits 參數，
-// 使 astro 層保持純函式、無 i18n 依賴。
-// UI 層呼叫時注入 i18n 字典對應的單位字串即可。
+// 接受 AngleUnits 參數，使 astro 層保持純函式、無 i18n 依賴；
+// UI 層呼叫時注入 i18n 字典對應的單位字串。
 
 import { RAD_TO_ARCSEC } from './constants'
 

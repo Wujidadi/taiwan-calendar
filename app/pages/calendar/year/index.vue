@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 年曆頁
 import { LunarMonth } from '#lunar/lunar-month'
 import { useEraYear } from '~/composables/useEraYear'
 

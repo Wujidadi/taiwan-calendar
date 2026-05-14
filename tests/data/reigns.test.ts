@@ -1,4 +1,3 @@
-// 岱員時憲章 — 年號資料完整性測試
 import { findReignByYear, reigns, reignsById } from '#data/reigns'
 import { describe, expect, it } from 'bun:test'
 

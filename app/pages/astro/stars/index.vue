@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 恆星頁（建置中）
 const { t } = useI18n()
 
 useHead({ title: () => t('stars.title') })

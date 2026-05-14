@@ -1,4 +1,3 @@
-// 岱員時憲章 — 年份顯示（依語系切換曆元）
 import { useI18n } from 'vue-i18n'
 
 export function useEraYear() {

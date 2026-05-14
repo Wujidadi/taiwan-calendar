@@ -1,4 +1,3 @@
-// 岱員時憲章 — 年号与朝代（简体）
 export default {
   dynasties: {
     roc: '中華民國',

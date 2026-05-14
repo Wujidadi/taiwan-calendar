@@ -1,4 +1,3 @@
-// 岱員時憲章 — 節日資料完整性測試
 import { festivals, festivalsById } from '#data/festivals'
 import { solarTerms, solarTermsById } from '#data/solar-terms'
 import { describe, expect, it } from 'bun:test'

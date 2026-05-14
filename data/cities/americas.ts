@@ -1,4 +1,3 @@
-// 岱員時憲章 — 美洲重點城市
 // 涵蓋美國、加拿大、墨西哥、中南美主要城市
 import { assignSortIndex, coords, tz } from './_helpers'
 

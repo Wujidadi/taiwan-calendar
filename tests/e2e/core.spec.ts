@@ -1,4 +1,3 @@
-// 岱員時憲章 — E2E 核心流程測試
 // 涵蓋 M5 驗收的 8 個關鍵流程
 import { expect, test } from '@playwright/test'
 

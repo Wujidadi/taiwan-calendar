@@ -1,4 +1,3 @@
-// 岱員時憲章 — UnoCSS 設定
 // 視覺方向：傳統古典（仿古紙、宋體、暖色調）
 import {
   defineConfig,

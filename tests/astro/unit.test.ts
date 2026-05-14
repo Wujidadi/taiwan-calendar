@@ -1,4 +1,3 @@
-// 岱員時憲章 — 演算法模組單元測試（函式行為驗證）
 import { describe, expect, it } from 'bun:test'
 
 import {

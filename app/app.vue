@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 應用程式根元件
 const { t } = useI18n()
 
 useHead({

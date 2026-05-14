@@ -1,4 +1,3 @@
-// 岱員時憲章 — Twenty-four Solar Terms (English)
 export default {
   solarTerms: {
     dongzhi: 'Winter Solstice',

@@ -1,4 +1,3 @@
-// 岱員時憲章 — 時區資料完整性測試
 import { citiesById } from '#data/cities'
 import { DEFAULT_TIMEZONE_ID, timezones, timezonesById } from '#data/timezones'
 import { describe, expect, it } from 'bun:test'

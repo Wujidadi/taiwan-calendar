@@ -1,4 +1,3 @@
-// 岱員時憲章 — 節日（繁中／台灣）
 export default {
   festivalCategories: {
     'tw-statutory': '台灣國定假日',

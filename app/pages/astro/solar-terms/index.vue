@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 岱員時憲章 — 朔氣頁（節氣與合朔一覽）
 import { shuoQiCalculator } from '#lunar/ssq'
 import { J2000 } from '#astro/constants'
 import { gregorianToJulianDay, julianDayToGregorian } from '#astro/julian-day'

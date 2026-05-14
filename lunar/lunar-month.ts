@@ -1,5 +1,3 @@
-// 岱員時憲章 — 三合曆月物件
-//
 // 用法：
 //   const m = new LunarMonth();
 //   m.calcMonth(2024, 2);

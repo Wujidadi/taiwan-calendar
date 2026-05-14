@@ -1,4 +1,3 @@
-// 岱員時憲章 — Cities (English)
 export default {
   regions: {
     taiwan: 'Taiwan',

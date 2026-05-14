@@ -1,4 +1,3 @@
-// 岱員時憲章 — 繁體中文（台灣慣用語）字典
 // 此為 baseline 語系
 export default {
   site: {

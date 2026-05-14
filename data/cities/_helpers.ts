@@ -1,4 +1,3 @@
-// 岱員時憲章 — 城市資料 helper
 import type {
   City,
   Coordinates,

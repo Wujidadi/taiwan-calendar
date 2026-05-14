@@ -1,4 +1,3 @@
-// 岱員時憲章 — Nuxt 設定
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { fileURLToPath } from 'node:url'
 
