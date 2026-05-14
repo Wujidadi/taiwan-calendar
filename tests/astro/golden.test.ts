@@ -38,6 +38,19 @@ import {
   sphericalToCartesian,
 } from '#astro/math'
 import {
+  ellipseCircleIntersect,
+  lineEarthIntersect,
+  lineEllipseIntersect,
+  lineEllipsoidIntersect,
+} from '#astro/eclipse-geometry'
+import { evalELPMoon, moonCoord } from '#astro/elp-moon'
+import {
+  applyEquatorialNutation,
+  nutation,
+  nutationLongitudeMedium,
+  nutationMedium,
+} from '#astro/nutation'
+import {
   eclipticDateToJ2000,
   eclipticJ2000ToDate,
   equatorialDateToJ2000,
@@ -45,7 +58,14 @@ import {
   meanObliquityP03,
   precessionQuantity,
 } from '#astro/precession'
-import { meanSiderealTimeFromTD, meanSiderealTimeFromUT } from '#astro/sidereal-time'
+import {
+  equationOfTime,
+  equationOfTimeFast,
+  meanSiderealTimeFromTD,
+  meanSiderealTimeFromUT,
+} from '#astro/sidereal-time'
+import { earthSSBPosition, earthSSBVelocity } from '#astro/ssb'
+import { earthCoord, evalVSOP87, planetCoord, plutoCoord } from '#astro/vsop87'
 import type { JulianDay } from '#types/time'
 import { describe, expect, it } from 'bun:test'
 import fixtureJson from '../fixtures/astro-golden.json' with { type: 'json' }
@@ -94,6 +114,8 @@ const fixture = fixtureJson as unknown as {
     siderealTime: {
       meanSiderealTimeFromUT: Cases
       meanSiderealTimeFromTD: Cases
+      equationOfTime: Cases
+      equationOfTimeFast: Cases
     }
     corrections: {
       refractionFromTrueAltitude: Cases
@@ -107,6 +129,32 @@ const fixture = fixtureJson as unknown as {
       equatorialDateToJ2000: Cases
       eclipticJ2000ToDate: Cases
       eclipticDateToJ2000: Cases
+    }
+    nutation: {
+      nutation: Cases
+      nutationMedium: Cases
+      nutationLongitudeMedium: Cases
+      applyEquatorialNutation: Cases
+    }
+    ssb: {
+      earthSSBVelocity: Cases
+      earthSSBPosition: Cases
+    }
+    eclipseGeometry: {
+      lineEllipsoidIntersect: Cases
+      lineEarthIntersect: Cases
+      ellipseCircleIntersect: Cases
+      lineEllipseIntersect: Cases
+    }
+    vsop87: {
+      evalVSOP87: Cases
+      plutoCoord: Cases
+      planetCoord: Cases
+      earthCoord: Cases
+    }
+    elpMoon: {
+      evalELPMoon: Cases
+      moonCoord: Cases
     }
   }
 }
@@ -275,6 +323,14 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
         expect(meanSiderealTimeFromTD(input)).toBeBitExact(expected)
       },
     )
+
+    it.each(s.equationOfTime)('equationOfTime: $description', ({ input, expected }) => {
+      expect(equationOfTime(input)).toBeBitExact(expected)
+    })
+
+    it.each(s.equationOfTimeFast)('equationOfTimeFast: $description', ({ input, expected }) => {
+      expect(equationOfTimeFast(input)).toBeBitExact(expected)
+    })
   })
 
   describe('corrections', () => {
@@ -339,6 +395,117 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
     it.each(p.eclipticDateToJ2000)('eclipticDateToJ2000: $description', ({ input, expected }) => {
       const [t, llr, model] = input
       expect([...eclipticDateToJ2000(t, [llr[0], llr[1], llr[2]], model)]).toBeBitExact(expected)
+    })
+  })
+
+  describe('nutation', () => {
+    const n = fixture.modules.nutation
+
+    it.each(n.nutation)('nutation: $description', ({ input, expected }) => {
+      expect([...nutation(input[0], input[1])]).toBeBitExact(expected)
+    })
+
+    it.each(n.nutationMedium)('nutationMedium: $description', ({ input, expected }) => {
+      expect([...nutationMedium(input)]).toBeBitExact(expected)
+    })
+
+    it.each(n.nutationLongitudeMedium)(
+      'nutationLongitudeMedium: $description',
+      ({ input, expected }) => {
+        expect(nutationLongitudeMedium(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(n.applyEquatorialNutation)(
+      'applyEquatorialNutation: $description',
+      ({ input, expected }) => {
+        const [z, E, dL, dE] = input
+        expect([...applyEquatorialNutation([z[0], z[1], z[2]], E, dL, dE)]).toBeBitExact(expected)
+      },
+    )
+  })
+
+  describe('ssb', () => {
+    const s = fixture.modules.ssb
+
+    it.each(s.earthSSBVelocity)('earthSSBVelocity: $description', ({ input, expected }) => {
+      expect([...earthSSBVelocity(input)]).toBeBitExact(expected)
+    })
+
+    it.each(s.earthSSBPosition)('earthSSBPosition: $description', ({ input, expected }) => {
+      expect([...earthSSBPosition(input)]).toBeBitExact(expected)
+    })
+  })
+
+  describe('eclipse-geometry', () => {
+    const eg = fixture.modules.eclipseGeometry
+
+    it.each(eg.lineEllipsoidIntersect)(
+      'lineEllipsoidIntersect: $description',
+      ({ input, expected }) => {
+        expect(
+          lineEllipsoidIntersect(
+            ...(input as [number, number, number, number, number, number, number, number]),
+          ),
+        ).toBeBitExact(expected)
+      },
+    )
+
+    it.each(eg.lineEarthIntersect)('lineEarthIntersect: $description', ({ input, expected }) => {
+      const [P, Q, gst] = input
+      expect(lineEarthIntersect([P[0], P[1], P[2]], [Q[0], Q[1], Q[2]], gst)).toBeBitExact(expected)
+    })
+
+    it.each(eg.ellipseCircleIntersect)(
+      'ellipseCircleIntersect: $description',
+      ({ input, expected }) => {
+        expect(
+          ellipseCircleIntersect(...(input as [number, number, number, number, number])),
+        ).toBeBitExact(expected)
+      },
+    )
+
+    it.each(eg.lineEllipseIntersect)(
+      'lineEllipseIntersect: $description',
+      ({ input, expected }) => {
+        expect(
+          lineEllipseIntersect(...(input as [number, number, number, number, number, number])),
+        ).toBeBitExact(expected)
+      },
+    )
+  })
+
+  describe('vsop87', () => {
+    const v = fixture.modules.vsop87
+
+    it.each(v.evalVSOP87)('evalVSOP87: $description', ({ input, expected }) => {
+      expect(evalVSOP87(input[0], input[1], input[2], input[3])).toBeBitExact(expected)
+    })
+
+    it.each(v.plutoCoord)('plutoCoord: $description', ({ input, expected }) => {
+      expect([...plutoCoord(input)]).toBeBitExact(expected)
+    })
+
+    it.each(v.planetCoord)('planetCoord: $description', ({ input, expected }) => {
+      expect([...planetCoord(input[0], input[1], input[2], input[3], input[4])]).toBeBitExact(
+        expected,
+      )
+    })
+
+    it.each(v.earthCoord)('earthCoord: $description', ({ input, expected }) => {
+      expect([...earthCoord(input[0], input[1], input[2], input[3])]).toBeBitExact(expected)
+    })
+  })
+
+  describe('elp-moon', () => {
+    const em = fixture.modules.elpMoon
+
+    it.each(em.evalELPMoon)('evalELPMoon: $description', ({ input, expected }) => {
+      expect(evalELPMoon(input[0], input[1], input[2])).toBeBitExact(expected)
+    })
+
+    it.each(em.moonCoord)('moonCoord: $description', ({ input, expected }) => {
+      expect([...moonCoord(input[0], input[1], input[2], input[3])]).toBeBitExact(expected)
     })
   })
 })
