@@ -81,6 +81,11 @@ import {
 } from '#astro/ephemeris'
 import { gravitationalDeflection, rigorousStellarCorrection, sunCoordJ2000 } from '#astro/stellar'
 import { moonRiseTransitSet, sunRiseTransitSet } from '#astro/rise-set'
+import {
+  fastSolarEclipseSearch,
+  solarEclipseBesselian,
+  solarEclipseLocal,
+} from '#astro/solar-eclipse'
 import { earthCoord, evalVSOP87, planetCoord, plutoCoord } from '#astro/vsop87'
 import type { JulianDay } from '#types/time'
 import { describe, expect, it } from 'bun:test'
@@ -194,6 +199,11 @@ const fixture = fixtureJson as unknown as {
     riseSet: {
       moonRiseTransitSet: Cases
       sunRiseTransitSet: Cases
+    }
+    solarEclipse: {
+      fastSolarEclipseSearch: Cases
+      besselianFeature: Cases
+      localSecMax: Cases
     }
   }
 }
@@ -653,6 +663,32 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
 
     it.each(rs.sunRiseTransitSet)('sunRiseTransitSet: $description', ({ input, expected }) => {
       const result = sunRiseTransitSet(input[0], input[1])
+      expect(result).toBeBitExact(expected)
+    })
+  })
+
+  describe('solar-eclipse', () => {
+    const se = fixture.modules.solarEclipse
+
+    it.each(se.fastSolarEclipseSearch)(
+      'fastSolarEclipseSearch: $description',
+      ({ input, expected }) => {
+        const result = fastSolarEclipseSearch(input as number)
+        expect(result).toBeBitExact(expected)
+      },
+    )
+
+    it.each(se.besselianFeature)('besselianFeature: $description', ({ input, expected }) => {
+      solarEclipseBesselian.init(input as number, 3)
+      const full = solarEclipseBesselian.feature(input as number)
+      const { p1, p2, p3, p4, q1, q2, q3, q4, L0, L1, L2, L3, L4, L5, L6, ...rest } = full
+      void [p1, p2, p3, p4, q1, q2, q3, q4, L0, L1, L2, L3, L4, L5, L6]
+      expect(rest).toBeBitExact(expected)
+    })
+
+    it.each(se.localSecMax)('localSecMax: $description', ({ input, expected }) => {
+      const [jd, L, fa, high] = input as readonly [number, number, number, number]
+      const result = solarEclipseLocal.secMax(jd, L, fa, high)
       expect(result).toBeBitExact(expected)
     })
   })
