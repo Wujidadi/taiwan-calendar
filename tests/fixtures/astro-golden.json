@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-14T02:23:29.594Z",
+  "generatedAt": "2026-05-14T03:00:21.814Z",
   "description": "Bit-exact 對照樣本，用於驗證主倉 astro/ 模組之 TS 重寫與標準參考實作行為完全一致。",
   "modules": {
     "math": {
@@ -612,6 +612,899 @@
           "description": "J2000 起算 −1000 年",
           "input": -365242.5,
           "expected": 0.018211335358796297
+        }
+      ]
+    },
+    "aberration": {
+      "sunLongitudeAberration": [
+        {
+          "description": "J2000",
+          "input": 0,
+          "expected": -0.00010102379613699563
+        },
+        {
+          "description": "1900 (~−1 世紀)",
+          "input": -1,
+          "expected": -0.00010102891750690793
+        },
+        {
+          "description": "1950 (~−0.5)",
+          "input": -0.5,
+          "expected": -0.00010102641644400776
+        },
+        {
+          "description": "2025 (~0.25)",
+          "input": 0.25,
+          "expected": -0.00010102244139660574
+        },
+        {
+          "description": "2050 (~0.5)",
+          "input": 0.5,
+          "expected": -0.00010102105700209528
+        },
+        {
+          "description": "2100 (~1)",
+          "input": 1,
+          "expected": -0.00010101819946605975
+        },
+        {
+          "description": "極端 ±2",
+          "input": 2,
+          "expected": -0.00010101213095000572
+        }
+      ],
+      "sunLatitudeAberration": [
+        {
+          "description": "J2000",
+          "input": 0,
+          "expected": 0
+        },
+        {
+          "description": "1900 (~−1 世紀)",
+          "input": -1,
+          "expected": 0
+        },
+        {
+          "description": "1950 (~−0.5)",
+          "input": -0.5,
+          "expected": 0
+        },
+        {
+          "description": "2025 (~0.25)",
+          "input": 0.25,
+          "expected": 0
+        },
+        {
+          "description": "2050 (~0.5)",
+          "input": 0.5,
+          "expected": 0
+        },
+        {
+          "description": "2100 (~1)",
+          "input": 1,
+          "expected": 0
+        },
+        {
+          "description": "極端 ±2",
+          "input": 2,
+          "expected": 0
+        }
+      ],
+      "moonLongitudeAberration": [
+        {
+          "description": "J2000",
+          "input": 0,
+          "expected": -0.0000034
+        },
+        {
+          "description": "1900 (~−1 世紀)",
+          "input": -1,
+          "expected": -0.0000034
+        },
+        {
+          "description": "1950 (~−0.5)",
+          "input": -0.5,
+          "expected": -0.0000034
+        },
+        {
+          "description": "2025 (~0.25)",
+          "input": 0.25,
+          "expected": -0.0000034
+        },
+        {
+          "description": "2050 (~0.5)",
+          "input": 0.5,
+          "expected": -0.0000034
+        },
+        {
+          "description": "2100 (~1)",
+          "input": 1,
+          "expected": -0.0000034
+        },
+        {
+          "description": "極端 ±2",
+          "input": 2,
+          "expected": -0.0000034
+        }
+      ],
+      "moonLatitudeAberration": [
+        {
+          "description": "J2000",
+          "input": 0,
+          "expected": 1.7400233489490012e-8
+        },
+        {
+          "description": "1900 (~−1 世紀)",
+          "input": -1,
+          "expected": -2.9956423282028536e-7
+        },
+        {
+          "description": "1950 (~−0.5)",
+          "input": -0.5,
+          "expected": -1.8696240889644573e-7
+        },
+        {
+          "description": "2025 (~0.25)",
+          "input": 0.25,
+          "expected": -1.2311477668156923e-7
+        },
+        {
+          "description": "2050 (~0.5)",
+          "input": 0.5,
+          "expected": 2.1323004754987843e-7
+        },
+        {
+          "description": "2100 (~1)",
+          "input": 1,
+          "expected": 3.0440095510224013e-7
+        },
+        {
+          "description": "極端 ±2",
+          "input": 2,
+          "expected": 6.704221591283197e-8
+        }
+      ]
+    },
+    "siderealTime": {
+      "meanSiderealTimeFromUT": [
+        {
+          "description": "J2000 中午（ut=0、dt=0.00074）",
+          "input": [0, 0.00074],
+          "expected": 4.894961283603852
+        },
+        {
+          "description": "1900 元旦（ut≈−36524.5、dt≈−2.79/86400）",
+          "input": [-36524.5, -0.00003229],
+          "expected": -230113.630151986
+        },
+        {
+          "description": "2050 元旦（ut≈18262.5、dt≈71/86400）",
+          "input": [18262.5, 0.0008217],
+          "expected": 115065.73262002153
+        },
+        {
+          "description": "2026-05-13（ut≈9628.5、dt≈69/86400）",
+          "input": [9628.5, 0.00079861],
+          "expected": 60668.18177247884
+        }
+      ],
+      "meanSiderealTimeFromTD": [
+        {
+          "description": "J2000 中午",
+          "input": 0,
+          "expected": 4.890303809206627
+        },
+        {
+          "description": "2026-05-13",
+          "input": 9628.5,
+          "expected": 60668.176742596224
+        },
+        {
+          "description": "2050",
+          "input": 18262.5,
+          "expected": 115065.72743912543
+        },
+        {
+          "description": "1900",
+          "input": -36524.5,
+          "expected": -230113.62991859214
+        }
+      ]
+    },
+    "corrections": {
+      "refractionFromTrueAltitude": [
+        {
+          "description": "地平面 h=0",
+          "input": 0,
+          "expected": 0.008429494270188952
+        },
+        {
+          "description": "低空 h=π/180 (1°)",
+          "input": 0.017453292519943295,
+          "expected": 0.0063244917401449096
+        },
+        {
+          "description": "h=π/12 (15°)",
+          "input": 0.2617993877991494,
+          "expected": 0.001068978107654275
+        },
+        {
+          "description": "h=π/4 (45°)",
+          "input": 0.7853981633974483,
+          "expected": 0.00029457849873947185
+        },
+        {
+          "description": "天頂 h=π/2",
+          "input": 1.5707963267948966,
+          "expected": -5.608755289185771e-7
+        }
+      ],
+      "refractionFromApparentAltitude": [
+        {
+          "description": "地平面",
+          "input": 0,
+          "expected": -0.010027816792766478
+        },
+        {
+          "description": "1°",
+          "input": 0.017453292519943295,
+          "expected": -0.007076696379380529
+        },
+        {
+          "description": "15°",
+          "input": 0.2617993877991494,
+          "expected": -0.0010577748838384168
+        },
+        {
+          "description": "45°",
+          "input": 0.7853981633974483,
+          "expected": -0.00028940110047939477
+        },
+        {
+          "description": "天頂",
+          "input": 1.5707963267948966,
+          "expected": 3.9320227656694615e-7
+        }
+      ],
+      "applyParallax": [
+        {
+          "description": "台北觀 z=[α=0, δ=π/4, dist=1 AU]",
+          "input": [[0, 0.7853981633974483, 1], 0, 0.4363323129985824, 0],
+          "expected": [0, 0.7854128401542924, 0.999959997486526]
+        },
+        {
+          "description": "玉山觀 z=[α=π, δ=−π/6, dist=1.5 AU]",
+          "input": [
+            [3.141592653589793, -0.5235987755982988, 1.5],
+            0.5235987755982988,
+            0.41015237421866746,
+            3.952
+          ],
+          "expected": [3.141577586625319, -0.523619836725676, 1.4999790956196313]
+        },
+        {
+          "description": "近距離 (>=500 km) z=[α=π/2, δ=0, dist=500000]",
+          "input": [[1.5707963267948966, 0, 500000], 0, 0, 0],
+          "expected": [1.5707963267948966, 0, 493621.8634]
+        }
+      ]
+    },
+    "precession": {
+      "precessionQuantity": [
+        {
+          "description": "IAU1976 fi t=0 (J2000)",
+          "input": [0, "fi", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 fi t=0.25 (~2025)",
+          "input": [0.25, "fi", "IAU1976"],
+          "expected": 0.006106846670168955
+        },
+        {
+          "description": "IAU1976 fi t=1 (~2100)",
+          "input": [1, "fi", "IAU1976"],
+          "expected": 0.024423481420117046
+        },
+        {
+          "description": "IAU1976 w t=0 (J2000)",
+          "input": [0, "w", "IAU1976"],
+          "expected": 0.40909280422232897
+        },
+        {
+          "description": "IAU1976 w t=0.25 (~2025)",
+          "input": [0.25, "w", "IAU1976"],
+          "expected": 0.4090928191723163
+        },
+        {
+          "description": "IAU1976 w t=1 (~2100)",
+          "input": [1, "w", "IAU1976"],
+          "expected": 0.40909301532959824
+        },
+        {
+          "description": "IAU1976 P t=0 (J2000)",
+          "input": [0, "P", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 P t=0.25 (~2025)",
+          "input": [0.25, "P", "IAU1976"],
+          "expected": 0.000005146547282784184
+        },
+        {
+          "description": "IAU1976 P t=1 (~2100)",
+          "input": [1, "P", "IAU1976"],
+          "expected": 0.000021292488427418413
+        },
+        {
+          "description": "IAU1976 Q t=0 (J2000)",
+          "input": [0, "Q", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 Q t=0.25 (~2025)",
+          "input": [0.25, "Q", "IAU1976"],
+          "expected": -0.00005672602594154237
+        },
+        {
+          "description": "IAU1976 Q t=1 (~2100)",
+          "input": [1, "Q", "IAU1976"],
+          "expected": -0.00022671858981109294
+        },
+        {
+          "description": "IAU1976 E t=0 (J2000)",
+          "input": [0, "E", "IAU1976"],
+          "expected": 0.40909280422232897
+        },
+        {
+          "description": "IAU1976 E t=0.25 (~2025)",
+          "input": [0.25, "E", "IAU1976"],
+          "expected": 0.4090360627996896
+        },
+        {
+          "description": "IAU1976 E t=1 (~2100)",
+          "input": [1, "E", "IAU1976"],
+          "expected": 0.4088658446267888
+        },
+        {
+          "description": "IAU1976 x t=0 (J2000)",
+          "input": [0, "x", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 x t=0.25 (~2025)",
+          "input": [0.25, "x", "IAU1976"],
+          "expected": 0.000012068672630913462
+        },
+        {
+          "description": "IAU1976 x t=1 (~2100)",
+          "input": [1, "x", "IAU1976"],
+          "expected": 0.00003961332594088636
+        },
+        {
+          "description": "IAU1976 pi t=0 (J2000)",
+          "input": [0, "pi", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 pi t=0.25 (~2025)",
+          "input": [0.25, "pi", "IAU1976"],
+          "expected": 0.0000569590032317517
+        },
+        {
+          "description": "IAU1976 pi t=1 (~2100)",
+          "input": [1, "pi", "IAU1976"],
+          "expected": 0.00022771624425221696
+        },
+        {
+          "description": "IAU1976 II t=0 (J2000)",
+          "input": [0, "II", "IAU1976"],
+          "expected": 3.052168217421543
+        },
+        {
+          "description": "IAU1976 II t=0.25 (~2025)",
+          "input": [0.25, "II", "IAU1976"],
+          "expected": 3.0511139777952767
+        },
+        {
+          "description": "IAU1976 II t=1 (~2100)",
+          "input": [1, "II", "IAU1976"],
+          "expected": 3.047951385380123
+        },
+        {
+          "description": "IAU1976 p t=0 (J2000)",
+          "input": [0, "p", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 p t=0.25 (~2025)",
+          "input": [0.25, "p", "IAU1976"],
+          "expected": 0.006095773770599074
+        },
+        {
+          "description": "IAU1976 p t=1 (~2100)",
+          "input": [1, "p", "IAU1976"],
+          "expected": 0.02438713529235825
+        },
+        {
+          "description": "IAU1976 th t=0 (J2000)",
+          "input": [0, "th", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 th t=0.25 (~2025)",
+          "input": [0.25, "th", "IAU1976"],
+          "expected": 0.002429160916255089
+        },
+        {
+          "description": "IAU1976 th t=1 (~2100)",
+          "input": [1, "th", "IAU1976"],
+          "expected": 0.009714902185491998
+        },
+        {
+          "description": "IAU1976 Z t=0 (J2000)",
+          "input": [0, "Z", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 Z t=0.25 (~2025)",
+          "input": [0.25, "Z", "IAU1976"],
+          "expected": 0.0027953080518643577
+        },
+        {
+          "description": "IAU1976 Z t=1 (~2100)",
+          "input": [1, "Z", "IAU1976"],
+          "expected": 0.011182411677331259
+        },
+        {
+          "description": "IAU1976 z t=0 (J2000)",
+          "input": [0, "z", "IAU1976"],
+          "expected": 0
+        },
+        {
+          "description": "IAU1976 z t=0.25 (~2025)",
+          "input": [0.25, "z", "IAU1976"],
+          "expected": 0.0027955482925725353
+        },
+        {
+          "description": "IAU1976 z t=1 (~2100)",
+          "input": [1, "z", "IAU1976"],
+          "expected": 0.011186256274063142
+        },
+        {
+          "description": "IAU2000 fi t=0 (J2000)",
+          "input": [0, "fi", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 fi t=0.25 (~2025)",
+          "input": [0.25, "fi", "IAU2000"],
+          "expected": 0.006106483484120093
+        },
+        {
+          "description": "IAU2000 fi t=1 (~2100)",
+          "input": [1, "fi", "IAU2000"],
+          "expected": 0.024422028675921602
+        },
+        {
+          "description": "IAU2000 w t=0 (J2000)",
+          "input": [0, "w", "IAU2000"],
+          "expected": 0.40909280422232897
+        },
+        {
+          "description": "IAU2000 w t=0.25 (~2025)",
+          "input": [0.25, "w", "IAU2000"],
+          "expected": 0.4090927885805731
+        },
+        {
+          "description": "IAU2000 w t=1 (~2100)",
+          "input": [1, "w", "IAU2000"],
+          "expected": 0.40909289296262513
+        },
+        {
+          "description": "IAU2000 P t=0 (J2000)",
+          "input": [0, "P", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 P t=0.25 (~2025)",
+          "input": [0.25, "P", "IAU2000"],
+          "expected": 0.000005146547282784184
+        },
+        {
+          "description": "IAU2000 P t=1 (~2100)",
+          "input": [1, "P", "IAU2000"],
+          "expected": 0.000021292488427418413
+        },
+        {
+          "description": "IAU2000 Q t=0 (J2000)",
+          "input": [0, "Q", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 Q t=0.25 (~2025)",
+          "input": [0.25, "Q", "IAU2000"],
+          "expected": -0.00005672602594154237
+        },
+        {
+          "description": "IAU2000 Q t=1 (~2100)",
+          "input": [1, "Q", "IAU2000"],
+          "expected": -0.00022671858981109294
+        },
+        {
+          "description": "IAU2000 E t=0 (J2000)",
+          "input": [0, "E", "IAU2000"],
+          "expected": 0.40909280422232897
+        },
+        {
+          "description": "IAU2000 E t=0.25 (~2025)",
+          "input": [0.25, "E", "IAU2000"],
+          "expected": 0.4090360322079464
+        },
+        {
+          "description": "IAU2000 E t=1 (~2100)",
+          "input": [1, "E", "IAU2000"],
+          "expected": 0.4088657222598157
+        },
+        {
+          "description": "IAU2000 x t=0 (J2000)",
+          "input": [0, "x", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 x t=0.25 (~2025)",
+          "input": [0.25, "x", "IAU2000"],
+          "expected": 0.000012068672630913462
+        },
+        {
+          "description": "IAU2000 x t=1 (~2100)",
+          "input": [1, "x", "IAU2000"],
+          "expected": 0.00003961332594088636
+        },
+        {
+          "description": "IAU2000 pi t=0 (J2000)",
+          "input": [0, "pi", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 pi t=0.25 (~2025)",
+          "input": [0.25, "pi", "IAU2000"],
+          "expected": 0.0000569590032317517
+        },
+        {
+          "description": "IAU2000 pi t=1 (~2100)",
+          "input": [1, "pi", "IAU2000"],
+          "expected": 0.00022771624425221696
+        },
+        {
+          "description": "IAU2000 II t=0 (J2000)",
+          "input": [0, "II", "IAU2000"],
+          "expected": 3.052168217421543
+        },
+        {
+          "description": "IAU2000 II t=0.25 (~2025)",
+          "input": [0.25, "II", "IAU2000"],
+          "expected": 3.0511139777952767
+        },
+        {
+          "description": "IAU2000 II t=1 (~2100)",
+          "input": [1, "II", "IAU2000"],
+          "expected": 3.047951385380123
+        },
+        {
+          "description": "IAU2000 p t=0 (J2000)",
+          "input": [0, "p", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 p t=0.25 (~2025)",
+          "input": [0.25, "p", "IAU2000"],
+          "expected": 0.006095410584550213
+        },
+        {
+          "description": "IAU2000 p t=1 (~2100)",
+          "input": [1, "p", "IAU2000"],
+          "expected": 0.024385682548162806
+        },
+        {
+          "description": "IAU2000 th t=0 (J2000)",
+          "input": [0, "th", "IAU2000"],
+          "expected": 0
+        },
+        {
+          "description": "IAU2000 th t=0.25 (~2025)",
+          "input": [0.25, "th", "IAU2000"],
+          "expected": 0.0024290164124823994
+        },
+        {
+          "description": "IAU2000 th t=1 (~2100)",
+          "input": [1, "th", "IAU2000"],
+          "expected": 0.009714322881624441
+        },
+        {
+          "description": "IAU2000 Z t=0 (J2000)",
+          "input": [0, "Z", "IAU2000"],
+          "expected": 0.000012593605507709181
+        },
+        {
+          "description": "IAU2000 Z t=0.25 (~2025)",
+          "input": [0.25, "Z", "IAU2000"],
+          "expected": 0.002807735431101498
+        },
+        {
+          "description": "IAU2000 Z t=1 (~2100)",
+          "input": [1, "Z", "IAU2000"],
+          "expected": 0.01119434015482951
+        },
+        {
+          "description": "IAU2000 z t=0 (J2000)",
+          "input": [0, "z", "IAU2000"],
+          "expected": -0.000012593605507709181
+        },
+        {
+          "description": "IAU2000 z t=0.25 (~2025)",
+          "input": [0.25, "z", "IAU2000"],
+          "expected": 0.002782787728870947
+        },
+        {
+          "description": "IAU2000 z t=1 (~2100)",
+          "input": [1, "z", "IAU2000"],
+          "expected": 0.011172995529054014
+        },
+        {
+          "description": "P03 fi t=0 (J2000)",
+          "input": [0, "fi", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 fi t=0.25 (~2025)",
+          "input": [0.25, "fi", "P03"],
+          "expected": 0.006106484884334486
+        },
+        {
+          "description": "P03 fi t=1 (~2100)",
+          "input": [1, "fi", "P03"],
+          "expected": 0.024422011607599742
+        },
+        {
+          "description": "P03 w t=0 (J2000)",
+          "input": [0, "w", "P03"],
+          "expected": 0.4090926006005829
+        },
+        {
+          "description": "P03 w t=0.25 (~2025)",
+          "input": [0.25, "w", "P03"],
+          "expected": 0.4090925843335744
+        },
+        {
+          "description": "P03 w t=1 (~2100)",
+          "input": [1, "w", "P03"],
+          "expected": 0.4090926868156625
+        },
+        {
+          "description": "P03 P t=0 (J2000)",
+          "input": [0, "P", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 P t=0.25 (~2025)",
+          "input": [0.25, "P", "P03"],
+          "expected": 0.000005148208323598429
+        },
+        {
+          "description": "P03 P t=1 (~2100)",
+          "input": [1, "P", "P03"],
+          "expected": 0.000021297165618925546
+        },
+        {
+          "description": "P03 Q t=0 (J2000)",
+          "input": [0, "Q", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 Q t=0.25 (~2025)",
+          "input": [0.25, "Q", "P03"],
+          "expected": -0.00005672104954367939
+        },
+        {
+          "description": "P03 Q t=1 (~2100)",
+          "input": [1, "Q", "P03"],
+          "expected": -0.00022669627496793696
+        },
+        {
+          "description": "P03 E t=0 (J2000)",
+          "input": [0, "E", "P03"],
+          "expected": 0.4090926006005829
+        },
+        {
+          "description": "P03 E t=0.25 (~2025)",
+          "input": [0.25, "E", "P03"],
+          "expected": 0.40903583293087725
+        },
+        {
+          "description": "P03 E t=1 (~2100)",
+          "input": [1, "E", "P03"],
+          "expected": 0.4088655383587418
+        },
+        {
+          "description": "P03 x t=0 (J2000)",
+          "input": [0, "x", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 x t=0.25 (~2025)",
+          "input": [0.25, "x", "P03"],
+          "expected": 0.000012073039506231624
+        },
+        {
+          "description": "P03 x t=1 (~2100)",
+          "input": [1, "x", "P03"],
+          "expected": 0.00003962834273922611
+        },
+        {
+          "description": "P03 pi t=0 (J2000)",
+          "input": [0, "pi", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 pi t=0.25 (~2025)",
+          "input": [0.25, "pi", "P03"],
+          "expected": 0.00005695420471547789
+        },
+        {
+          "description": "P03 pi t=1 (~2100)",
+          "input": [1, "pi", "P03"],
+          "expected": 0.00022769446603768906
+        },
+        {
+          "description": "P03 II t=0 (J2000)",
+          "input": [0, "II", "P03"],
+          "expected": 3.0521289843592125
+        },
+        {
+          "description": "P03 II t=0.25 (~2025)",
+          "input": [0.25, "II", "P03"],
+          "expected": 3.051077037917028
+        },
+        {
+          "description": "P03 II t=1 (~2100)",
+          "input": [1, "II", "P03"],
+          "expected": 3.0479217703958255
+        },
+        {
+          "description": "P03 p t=0 (J2000)",
+          "input": [0, "p", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 p t=0.25 (~2025)",
+          "input": [0.25, "p", "P03"],
+          "expected": 0.006095407948896855
+        },
+        {
+          "description": "P03 p t=1 (~2100)",
+          "input": [1, "p", "P03"],
+          "expected": 0.02438565151825122
+        },
+        {
+          "description": "P03 th t=0 (J2000)",
+          "input": [0, "th", "P03"],
+          "expected": 0
+        },
+        {
+          "description": "P03 th t=0.25 (~2025)",
+          "input": [0.25, "th", "P03"],
+          "expected": 0.002429015826896486
+        },
+        {
+          "description": "P03 th t=1 (~2100)",
+          "input": [1, "th", "P03"],
+          "expected": 0.009714311501804282
+        },
+        {
+          "description": "P03 Z t=0 (J2000)",
+          "input": [0, "Z", "P03"],
+          "expected": 0.000012850204783964751
+        },
+        {
+          "description": "P03 Z t=0.25 (~2025)",
+          "input": [0.25, "Z", "P03"],
+          "expected": 0.0028079938692347536
+        },
+        {
+          "description": "P03 Z t=1 (~2100)",
+          "input": [1, "Z", "P03"],
+          "expected": 0.011194593376853424
+        },
+        {
+          "description": "P03 z t=0 (J2000)",
+          "input": [0, "z", "P03"],
+          "expected": -0.000012850204783964751
+        },
+        {
+          "description": "P03 z t=0.25 (~2025)",
+          "input": [0.25, "z", "P03"],
+          "expected": 0.002782526704137507
+        },
+        {
+          "description": "P03 z t=1 (~2100)",
+          "input": [1, "z", "P03"],
+          "expected": 0.011172713620969655
+        }
+      ],
+      "meanObliquityP03": [
+        {
+          "description": "J2000",
+          "input": 0,
+          "expected": 0.4090926006005829
+        },
+        {
+          "description": "1900 (~−1 世紀)",
+          "input": -1,
+          "expected": 0.4093196610614513
+        },
+        {
+          "description": "1950 (~−0.5)",
+          "input": -0.5,
+          "expected": 0.4092061346963476
+        },
+        {
+          "description": "2025 (~0.25)",
+          "input": 0.25,
+          "expected": 0.40903583293087725
+        },
+        {
+          "description": "2050 (~0.5)",
+          "input": 0.5,
+          "expected": 0.4089790660606222
+        },
+        {
+          "description": "2100 (~1)",
+          "input": 1,
+          "expected": 0.4088655383587418
+        },
+        {
+          "description": "極端 ±2",
+          "input": 2,
+          "expected": 0.40863853257264887
+        }
+      ],
+      "equatorialJ2000ToDate": [
+        {
+          "description": "P03 ra=π/4 dec=π/6 dist=1 t=0.25",
+          "input": [0.25, [0.7853981633974483, 0.5235987755982988, 1], "P03"],
+          "expected": [0.7919855670698547, 0.5253106613729847, 1]
+        },
+        {
+          "description": "IAU2000 ra=π dec=−π/4 dist=10 t=1",
+          "input": [1, [3.141592653589793, -0.7853981633974483, 10], "IAU2000"],
+          "expected": [3.164070335937303, -0.7951118716286792, 10]
+        }
+      ],
+      "equatorialDateToJ2000": [
+        {
+          "description": "P03 ra=π/4 dec=π/6 t=0.25",
+          "input": [0.25, [0.7853981633974483, 0.5235987755982988, 1], "P03"],
+          "expected": [0.7788212200999606, 0.5218755843091804, 1]
+        }
+      ],
+      "eclipticJ2000ToDate": [
+        {
+          "description": "P03 λ=π/4 β=0 r=1 t=0.25",
+          "input": [0.25, [0.7853981633974483, 0, 1], "P03"],
+          "expected": [0.791493570549581, 0.00004374817178839308, 1]
+        },
+        {
+          "description": "IAU1976 λ=π/2 β=π/12 r=2 t=1",
+          "input": [1, [1.5707963267948966, 0.2617993877991494, 2], "IAU1976"],
+          "expected": [1.5951891698700607, 0.2620261063684618, 2]
+        }
+      ],
+      "eclipticDateToJ2000": [
+        {
+          "description": "P03 λ=π/4 β=0 t=0.25",
+          "input": [0.25, [0.7853981633974483, 0, 1], "P03"],
+          "expected": [0.7793027546482081, -0.00004352507613289779, 1]
         }
       ]
     }

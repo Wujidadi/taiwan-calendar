@@ -7,6 +7,17 @@
 // 同一引擎執行，浮點末位完全一致。唯一例外是 JSON 序列化會把 `-0` 寫成
 // `"0"`、解析回 `+0`——bit-close.ts 內 `a === b` 自動視 ±0 相等，故此情形
 // 不需額外容忍。NaN 與 NaN 亦視為相等。
+import {
+  moonLatitudeAberration,
+  moonLongitudeAberration,
+  sunLatitudeAberration,
+  sunLongitudeAberration,
+} from '#astro/aberration'
+import {
+  applyParallax,
+  refractionFromApparentAltitude,
+  refractionFromTrueAltitude,
+} from '#astro/corrections'
 import { computeDeltaT, deltaT } from '#astro/delta-t'
 import {
   gregorianToJulianDay,
@@ -26,6 +37,15 @@ import {
   rotateSpherical,
   sphericalToCartesian,
 } from '#astro/math'
+import {
+  eclipticDateToJ2000,
+  eclipticJ2000ToDate,
+  equatorialDateToJ2000,
+  equatorialJ2000ToDate,
+  meanObliquityP03,
+  precessionQuantity,
+} from '#astro/precession'
+import { meanSiderealTimeFromTD, meanSiderealTimeFromUT } from '#astro/sidereal-time'
 import type { JulianDay } from '#types/time'
 import { describe, expect, it } from 'bun:test'
 import fixtureJson from '../fixtures/astro-golden.json' with { type: 'json' }
@@ -64,6 +84,29 @@ const fixture = fixtureJson as unknown as {
     deltaT: {
       computeDeltaT: Cases
       deltaT: Cases
+    }
+    aberration: {
+      sunLongitudeAberration: Cases
+      sunLatitudeAberration: Cases
+      moonLongitudeAberration: Cases
+      moonLatitudeAberration: Cases
+    }
+    siderealTime: {
+      meanSiderealTimeFromUT: Cases
+      meanSiderealTimeFromTD: Cases
+    }
+    corrections: {
+      refractionFromTrueAltitude: Cases
+      refractionFromApparentAltitude: Cases
+      applyParallax: Cases
+    }
+    precession: {
+      precessionQuantity: Cases
+      meanObliquityP03: Cases
+      equatorialJ2000ToDate: Cases
+      equatorialDateToJ2000: Cases
+      eclipticJ2000ToDate: Cases
+      eclipticDateToJ2000: Cases
     }
   }
 }
@@ -181,6 +224,121 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
 
     it.each(d.deltaT)('deltaT: $description', ({ input, expected }) => {
       expect(deltaT(input)).toBeBitExact(expected)
+    })
+  })
+
+  describe('aberration', () => {
+    const a = fixture.modules.aberration
+
+    it.each(a.sunLongitudeAberration)(
+      'sunLongitudeAberration: $description',
+      ({ input, expected }) => {
+        expect(sunLongitudeAberration(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(a.sunLatitudeAberration)(
+      'sunLatitudeAberration: $description',
+      ({ input, expected }) => {
+        expect(sunLatitudeAberration(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(a.moonLongitudeAberration)(
+      'moonLongitudeAberration: $description',
+      ({ input, expected }) => {
+        expect(moonLongitudeAberration(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(a.moonLatitudeAberration)(
+      'moonLatitudeAberration: $description',
+      ({ input, expected }) => {
+        expect(moonLatitudeAberration(input)).toBeBitExact(expected)
+      },
+    )
+  })
+
+  describe('sidereal-time', () => {
+    const s = fixture.modules.siderealTime
+
+    it.each(s.meanSiderealTimeFromUT)(
+      'meanSiderealTimeFromUT: $description',
+      ({ input, expected }) => {
+        expect(meanSiderealTimeFromUT(input[0], input[1])).toBeBitExact(expected)
+      },
+    )
+
+    it.each(s.meanSiderealTimeFromTD)(
+      'meanSiderealTimeFromTD: $description',
+      ({ input, expected }) => {
+        expect(meanSiderealTimeFromTD(input)).toBeBitExact(expected)
+      },
+    )
+  })
+
+  describe('corrections', () => {
+    const c = fixture.modules.corrections
+
+    it.each(c.refractionFromTrueAltitude)(
+      'refractionFromTrueAltitude: $description',
+      ({ input, expected }) => {
+        expect(refractionFromTrueAltitude(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(c.refractionFromApparentAltitude)(
+      'refractionFromApparentAltitude: $description',
+      ({ input, expected }) => {
+        expect(refractionFromApparentAltitude(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(c.applyParallax)('applyParallax: $description', ({ input, expected }) => {
+      const [z, H, fa, high] = input
+      expect([...applyParallax([z[0], z[1], z[2]], H, fa, high)]).toBeBitExact(expected)
+    })
+  })
+
+  describe('precession', () => {
+    const p = fixture.modules.precession
+
+    it.each(p.precessionQuantity)('precessionQuantity: $description', ({ input, expected }) => {
+      expect(precessionQuantity(input[0], input[1], input[2])).toBeBitExact(expected)
+    })
+
+    it.each(p.meanObliquityP03)('meanObliquityP03: $description', ({ input, expected }) => {
+      expect(meanObliquityP03(input)).toBeBitExact(expected)
+    })
+
+    it.each(p.equatorialJ2000ToDate)(
+      'equatorialJ2000ToDate: $description',
+      ({ input, expected }) => {
+        const [t, llr, model] = input
+        expect([...equatorialJ2000ToDate(t, [llr[0], llr[1], llr[2]], model)]).toBeBitExact(
+          expected,
+        )
+      },
+    )
+
+    it.each(p.equatorialDateToJ2000)(
+      'equatorialDateToJ2000: $description',
+      ({ input, expected }) => {
+        const [t, llr, model] = input
+        expect([...equatorialDateToJ2000(t, [llr[0], llr[1], llr[2]], model)]).toBeBitExact(
+          expected,
+        )
+      },
+    )
+
+    it.each(p.eclipticJ2000ToDate)('eclipticJ2000ToDate: $description', ({ input, expected }) => {
+      const [t, llr, model] = input
+      expect([...eclipticJ2000ToDate(t, [llr[0], llr[1], llr[2]], model)]).toBeBitExact(expected)
+    })
+
+    it.each(p.eclipticDateToJ2000)('eclipticDateToJ2000: $description', ({ input, expected }) => {
+      const [t, llr, model] = input
+      expect([...eclipticDateToJ2000(t, [llr[0], llr[1], llr[2]], model)]).toBeBitExact(expected)
     })
   })
 })
