@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxtjs/i18n',
+    '@nuxtjs/sitemap',
     '@pinia/nuxt',
     '@unocss/nuxt',
     '@nuxtjs/color-mode',
@@ -59,6 +60,17 @@ export default defineNuxtConfig({
     '/en/calendar': { ssr: false },
   },
   compatibilityDate: '2026-05-13',
+
+  // Sitemap：三語系全站地圖
+  sitemap: {
+    sitemaps: true,
+    autoLastmod: true,
+    xsl: false,
+    i18n: {
+      locales: ['zh-tw', 'zh-cn', 'en'],
+      routesNameSeparator: '___',
+    },
+  },
 
   // Nitro：GitHub Pages 部署
   nitro: {

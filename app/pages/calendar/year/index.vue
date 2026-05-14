@@ -3,7 +3,7 @@
 import { LunarMonth } from '#lunar/lunar-month'
 import { useEraYear } from '~/composables/useEraYear'
 
-const { t } = useI18n()
+const { t, tm } = useI18n()
 const { eraYear } = useEraYear()
 
 useHead({
@@ -32,7 +32,7 @@ interface MonthSummary {
 
 // ── 計算十二個月的簡要資訊 ──
 const months = computed((): MonthSummary[] => {
-  const monthNames = t('calendar.months') as unknown as string[]
+  const monthNames = tm('calendar.months') as string[]
   const result: MonthSummary[] = []
 
   for (let m = 1; m <= 12; m++) {

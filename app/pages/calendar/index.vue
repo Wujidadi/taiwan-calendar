@@ -3,7 +3,7 @@
 import { LunarMonth } from '#lunar/lunar-month'
 import { J2000 } from '#astro/constants'
 
-const { t, locale } = useI18n()
+const { t, tm, locale } = useI18n()
 
 useHead({
   title: () => t('nav.calendar.month'),
@@ -33,7 +33,7 @@ const yearLabel = computed(() => {
 
 // ── 月名 ──
 const monthName = computed(() => {
-  const months = t('calendar.months') as unknown as string[]
+  const months = tm('calendar.months') as string[]
   return months[viewMonth.value - 1] ?? ''
 })
 
@@ -129,7 +129,7 @@ function goToday() {
     <!-- 星期列頭 -->
     <div class="grid grid-cols-7 mb-1">
       <div
-        v-for="(wd, i) in (t('calendar.weekdays') as unknown as string[])"
+        v-for="(wd, i) in (tm('calendar.weekdays') as string[])"
         :key="i"
         class="py-2 text-center text-sm font-medium text-ink-500 dark:text-paper-400"
         :class="i === 0 || i === 6 ? 'text-crimson' : ''"
