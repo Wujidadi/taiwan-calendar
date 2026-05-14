@@ -58,4 +58,15 @@ export default {
     solarTermLabel: '节气',
     leapPrefix: '闰',
   },
+
+  bazi: { title: '八字', inputDate: '输入日期', inputTime: '输入时辰', year: '年柱', month: '月柱', day: '日柱', hour: '时柱', ganZhi: '干支', calculate: '计算', dateLabel: '西历日期', timeLabel: '时辰（0–23 时）', result: '八字结果' },
+  solarTerms: { title: '朔气', yearLabel: '年份', newMoon: '合朔', solarTerm: '节气', dateTime: '时刻', type: '类别', longitude: '太阳黄经' },
+  riseSet: { title: '升降', sunrise: '日出', noon: '日中', sunset: '日没', moonrise: '月出', moonTransit: '月中', moonset: '月没', noRise: '不出', noSet: '不没', observer: '观测地点', longitude: '东经', latitude: '北纬' },
+  eclipses: { title: '日月食', solarEclipse: '日食', lunarEclipse: '月食', comingSoon: '功能开发中' },
+  ephemeris: { title: '星历', comingSoon: '功能开发中' },
+  phenomena: { title: '天象', comingSoon: '功能开发中' },
+  stars: { title: '恒星', comingSoon: '功能开发中' },
+  constants: { title: '常数', astronomicalUnit: '天文单位', lightSpeed: '光速', earthRadius: '地球赤道半径', siderealYear: '恒星年', tropicalYear: '回归年', synodicMonth: '朔望月', value: '数值', unit: '单位' },
+  tools: { title: '工具', comingSoon: '功能开发中' },
+  yearCalendar: { title: '年历' },
 }

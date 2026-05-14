@@ -59,4 +59,15 @@ export default {
     solarTermLabel: 'Solar Term',
     leapPrefix: 'Leap ',
   },
+
+  bazi: { title: 'Bāzì', inputDate: 'Date', inputTime: 'Hour (0–23)', year: 'Year Pillar', month: 'Month Pillar', day: 'Day Pillar', hour: 'Hour Pillar', ganZhi: 'Gānzhī', calculate: 'Calculate', dateLabel: 'Gregorian Date', timeLabel: 'Hour (0–23)', result: 'Bāzì Result' },
+  solarTerms: { title: 'New Moons & Solar Terms', yearLabel: 'Year', newMoon: 'New Moon', solarTerm: 'Solar Term', dateTime: 'Date & Time', type: 'Type', longitude: 'Solar Longitude' },
+  riseSet: { title: 'Rise & Set', sunrise: 'Sunrise', noon: 'Solar Noon', sunset: 'Sunset', moonrise: 'Moonrise', moonTransit: 'Moon Transit', moonset: 'Moonset', noRise: 'No Rise', noSet: 'No Set', observer: 'Observer', longitude: 'Longitude (E)', latitude: 'Latitude (N)' },
+  eclipses: { title: 'Eclipses', solarEclipse: 'Solar Eclipse', lunarEclipse: 'Lunar Eclipse', comingSoon: 'Coming soon' },
+  ephemeris: { title: 'Ephemeris', comingSoon: 'Coming soon' },
+  phenomena: { title: 'Phenomena', comingSoon: 'Coming soon' },
+  stars: { title: 'Stars', comingSoon: 'Coming soon' },
+  constants: { title: 'Constants', astronomicalUnit: 'Astronomical Unit', lightSpeed: 'Speed of Light', earthRadius: 'Earth Equatorial Radius', siderealYear: 'Sidereal Year', tropicalYear: 'Tropical Year', synodicMonth: 'Synodic Month', value: 'Value', unit: 'Unit' },
+  tools: { title: 'Tools', comingSoon: 'Coming soon' },
+  yearCalendar: { title: 'Year Calendar' },
 }
