@@ -80,6 +80,7 @@ import {
   sunApparentLongitude,
 } from '#astro/ephemeris'
 import { gravitationalDeflection, rigorousStellarCorrection, sunCoordJ2000 } from '#astro/stellar'
+import { moonRiseTransitSet, sunRiseTransitSet } from '#astro/rise-set'
 import { earthCoord, evalVSOP87, planetCoord, plutoCoord } from '#astro/vsop87'
 import type { JulianDay } from '#types/time'
 import { describe, expect, it } from 'bun:test'
@@ -189,6 +190,10 @@ const fixture = fixtureJson as unknown as {
       sunCoordJ2000: Cases
       gravitationalDeflection: Cases
       rigorousStellarCorrection: Cases
+    }
+    riseSet: {
+      moonRiseTransitSet: Cases
+      sunRiseTransitSet: Cases
     }
   }
 }
@@ -636,5 +641,19 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
         ]).toBeBitExact(expected)
       },
     )
+  })
+
+  describe('rise-set', () => {
+    const rs = fixture.modules.riseSet
+
+    it.each(rs.moonRiseTransitSet)('moonRiseTransitSet: $description', ({ input, expected }) => {
+      const result = moonRiseTransitSet(input[0], input[1])
+      expect(result).toBeBitExact(expected)
+    })
+
+    it.each(rs.sunRiseTransitSet)('sunRiseTransitSet: $description', ({ input, expected }) => {
+      const result = sunRiseTransitSet(input[0], input[1])
+      expect(result).toBeBitExact(expected)
+    })
   })
 })
