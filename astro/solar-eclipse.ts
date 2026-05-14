@@ -419,9 +419,11 @@ export class SolarEclipseBesselian {
   sun(jd: number): Spherical {
     return this.chazhi(jd, 0) as Spherical
   }
+
   moon(jd: number): Spherical {
     return this.chazhi(jd, 1) as Spherical
   }
+
   bse(jd: number): readonly number[] {
     return this.chazhi(jd, 2)
   }
