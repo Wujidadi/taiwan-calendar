@@ -1,0 +1,619 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-14T02:05:39.008Z",
+  "description": "Bit-exact 對照樣本，用於驗證主倉 astro/ 模組之 TS 重寫與標準參考實作行為完全一致。",
+  "modules": {
+    "math": {
+      "normalizeAngle": [
+        {
+          "description": "零角",
+          "input": 0,
+          "expected": 0
+        },
+        {
+          "description": "π/4",
+          "input": 0.7853981633974483,
+          "expected": 0.7853981633974483
+        },
+        {
+          "description": "π/2",
+          "input": 1.5707963267948966,
+          "expected": 1.5707963267948966
+        },
+        {
+          "description": "π",
+          "input": 3.141592653589793,
+          "expected": 3.141592653589793
+        },
+        {
+          "description": "3π/2",
+          "input": 4.71238898038469,
+          "expected": 4.71238898038469
+        },
+        {
+          "description": "2π 邊界",
+          "input": 6.283185307179586,
+          "expected": 0
+        },
+        {
+          "description": "小於零",
+          "input": -1.0471975511965976,
+          "expected": 5.235987755982989
+        },
+        {
+          "description": "−π",
+          "input": -3.141592653589793,
+          "expected": 3.141592653589793
+        },
+        {
+          "description": "−2π",
+          "input": -6.283185307179586,
+          "expected": 0
+        },
+        {
+          "description": "多周回繞",
+          "input": 314.1592653589793,
+          "expected": 1.4210854715202004e-14
+        },
+        {
+          "description": "負多周回繞",
+          "input": -314.1592653589793,
+          "expected": 6.283185307179572
+        },
+        {
+          "description": "極小正值",
+          "input": 1e-15,
+          "expected": 1e-15
+        },
+        {
+          "description": "常見實數",
+          "input": 3.14159,
+          "expected": 3.14159
+        },
+        {
+          "description": "大於 2π",
+          "input": 7.5,
+          "expected": 1.2168146928204138
+        }
+      ],
+      "normalizeAngleSigned": [
+        {
+          "description": "零角",
+          "input": 0,
+          "expected": 0
+        },
+        {
+          "description": "π/4",
+          "input": 0.7853981633974483,
+          "expected": 0.7853981633974483
+        },
+        {
+          "description": "π",
+          "input": 3.141592653589793,
+          "expected": 3.141592653589793
+        },
+        {
+          "description": "剛過 π",
+          "input": 3.241592653589793,
+          "expected": -3.041592653589793
+        },
+        {
+          "description": "−π",
+          "input": -3.141592653589793,
+          "expected": 3.141592653589793
+        },
+        {
+          "description": "剛過 −π",
+          "input": -3.241592653589793,
+          "expected": 3.041592653589793
+        },
+        {
+          "description": "多周回繞",
+          "input": 314.1592653589793,
+          "expected": 1.4210854715202004e-14
+        },
+        {
+          "description": "負多周回繞",
+          "input": -314.1592653589793,
+          "expected": -1.4210854715202004e-14
+        },
+        {
+          "description": "極小正值",
+          "input": 1e-15,
+          "expected": 1e-15
+        }
+      ],
+      "balancedMod": [
+        {
+          "description": "基本：7 mod 10",
+          "input": [7, 10],
+          "expected": -3
+        },
+        {
+          "description": "基本：3 mod 10",
+          "input": [3, 10],
+          "expected": 3
+        },
+        {
+          "description": "邊界：5 mod 10",
+          "input": [5, 10],
+          "expected": 5
+        },
+        {
+          "description": "超過 b：12 mod 10",
+          "input": [12, 10],
+          "expected": 2
+        },
+        {
+          "description": "負值：−3 mod 10",
+          "input": [-3, 10],
+          "expected": -3
+        },
+        {
+          "description": "較大值：100 mod 7",
+          "input": [100, 7],
+          "expected": 2
+        },
+        {
+          "description": "浮點：3.14 mod 2",
+          "input": [3.14, 2],
+          "expected": -0.8599999999999994
+        }
+      ],
+      "sphericalToCartesian": [
+        {
+          "description": "單位向量沿 x 軸",
+          "input": [0, 0, 1],
+          "expected": [1, 0, 0]
+        },
+        {
+          "description": "π/4, π/6, 2",
+          "input": [0.7853981633974483, 0.5235987755982988, 2],
+          "expected": [1.2247448713915892, 1.224744871391589, 0.9999999999999999]
+        },
+        {
+          "description": "π, π/3, 5",
+          "input": [3.141592653589793, 1.0471975511965976, 5],
+          "expected": [-2.5000000000000004, 3.0616169978683836e-16, 4.330127018922193]
+        },
+        {
+          "description": "南極點",
+          "input": [0, -1.5707963267948966, 1],
+          "expected": [6.123233995736766e-17, 0, -1]
+        },
+        {
+          "description": "北極點",
+          "input": [0, 1.5707963267948966, 1],
+          "expected": [6.123233995736766e-17, 0, 1]
+        }
+      ],
+      "cartesianToSpherical": [
+        {
+          "description": "沿 x 軸",
+          "input": [1, 0, 0],
+          "expected": [0, 0, 1]
+        },
+        {
+          "description": "沿 y 軸",
+          "input": [0, 1, 0],
+          "expected": [1.5707963267948966, 0, 1]
+        },
+        {
+          "description": "沿 z 軸",
+          "input": [0, 0, 1],
+          "expected": [0, 1.5707963267948966, 1]
+        },
+        {
+          "description": "對角線",
+          "input": [1, 1, 1],
+          "expected": [0.7853981633974483, 0.6154797086703875, 1.7320508075688772]
+        },
+        {
+          "description": "負座標",
+          "input": [-1, -2, -3],
+          "expected": [4.2487413713838835, -0.9302740141154722, 3.7416573867739413]
+        }
+      ],
+      "rotateSpherical": [
+        {
+          "description": "黃赤交角 ≈ 23.5° 黃道 → 赤道",
+          "input": [[0.7853981633974483, 0.1, 1], 0.4090928],
+          "expected": [0.7108683161870883, 0.38058223516697853, 1]
+        },
+        {
+          "description": "無旋轉（E = 0）",
+          "input": [[1.0471975511965976, 0.2, 1], 0],
+          "expected": [1.0471975511965976, 0.2, 1]
+        },
+        {
+          "description": "反向（負 E）",
+          "input": [[0.7853981633974483, 0.1, 1], -0.4090928],
+          "expected": [0.7721889610792974, -0.1894007239179719, 1]
+        }
+      ],
+      "equatorialToHorizon": [
+        {
+          "description": "台北赤道→地平（lat=25°N, lon=121.5°E, gst=0）",
+          "input": [[1.5707963267948966, 0.2, 1], 2.1205750411731104, 0.4363323129985824, 0],
+          "expected": [4.386411506024133, 0.999705940952317, 1]
+        }
+      ],
+      "angularSeparation": [
+        {
+          "description": "同點",
+          "input": [1, 0.5, 1, 0.5],
+          "expected": 0
+        },
+        {
+          "description": "對極點",
+          "input": [0, 0, 3.141592653589793, 0],
+          "expected": 3.141592653589793
+        },
+        {
+          "description": "90° 黃道差",
+          "input": [0, 0, 1.5707963267948966, 0],
+          "expected": 1.5707963267948966
+        },
+        {
+          "description": "小角度（走平面近似）",
+          "input": [1, 0.5, 1.0001, 0.5001],
+          "expected": 0.00013304544629688585
+        },
+        {
+          "description": "一般情形",
+          "input": [0.5, 0.3, 1.5, 0.7],
+          "expected": 0.9457087103709476
+        }
+      ],
+      "heliocentricToGeocentric": [
+        {
+          "description": "目標日心 + 地球日心 → 地心",
+          "input": [
+            [0.7853981633974483, 0.1, 1.5],
+            [3.141592653589793, 0, 1]
+          ],
+          "expected": [0.4743634957786654, 0.06472302164702984, 2.3153234283207302]
+        }
+      ],
+      "parallacticAngle": [
+        {
+          "description": "台北觀測者，目標 ra=π/2、dec=0.2",
+          "input": [0, 2.1205750411731104, 0.4363323129985824, 1.5707963267948966, 0.2],
+          "expected": 1.0675933491328622
+        }
+      ]
+    },
+    "julianDay": {
+      "gregorianToJulianDay": [
+        {
+          "description": "J2000.0",
+          "input": [2000, 1, 1.5],
+          "expected": 2451545
+        },
+        {
+          "description": "Unix epoch",
+          "input": [1970, 1, 1],
+          "expected": 2440587.5
+        },
+        {
+          "description": "格里曆首日",
+          "input": [1582, 10, 15],
+          "expected": 2299160.5
+        },
+        {
+          "description": "儒略曆末日",
+          "input": [1582, 10, 4],
+          "expected": 2299159.5
+        },
+        {
+          "description": "公元 1 年元旦",
+          "input": [1, 1, 1],
+          "expected": 1721423.5
+        },
+        {
+          "description": "公元 0 年（天文紀年）",
+          "input": [0, 1, 1],
+          "expected": 1721057.5
+        },
+        {
+          "description": "公元前 1000 年",
+          "input": [-999, 6, 15],
+          "expected": 1356338.5
+        },
+        {
+          "description": "公元前 2000 年",
+          "input": [-1999, 6, 15],
+          "expected": 991088.5
+        },
+        {
+          "description": "遠未來 3000 年末",
+          "input": [3000, 12, 31],
+          "expected": 2817151.5
+        },
+        {
+          "description": "閏日 2024-02-29",
+          "input": [2024, 2, 29],
+          "expected": 2460369.5
+        },
+        {
+          "description": "世紀閏 2000-02-29",
+          "input": [2000, 2, 29],
+          "expected": 2451603.5
+        },
+        {
+          "description": "非閏 1900-02-28",
+          "input": [1900, 2, 28],
+          "expected": 2415078.5
+        },
+        {
+          "description": "帶小數天 2026-05-13 17:00",
+          "input": [2026, 5, 13.708333333333334],
+          "expected": 2461174.2083333335
+        }
+      ],
+      "julianDayToGregorian": [
+        {
+          "description": "J2000",
+          "input": 2451545,
+          "expected": {
+            "year": 2000,
+            "month": 1,
+            "day": 1,
+            "hour": 12,
+            "minute": 0,
+            "second": 0
+          }
+        },
+        {
+          "description": "Unix epoch",
+          "input": 2440587.5,
+          "expected": {
+            "year": 1970,
+            "month": 1,
+            "day": 1,
+            "hour": 0,
+            "minute": 0,
+            "second": 0
+          }
+        },
+        {
+          "description": "格里曆首日",
+          "input": 2299160.5,
+          "expected": {
+            "year": 1582,
+            "month": 10,
+            "day": 15,
+            "hour": 0,
+            "minute": 0,
+            "second": 0
+          }
+        },
+        {
+          "description": "儒略曆末日",
+          "input": 2299159.5,
+          "expected": {
+            "year": 1582,
+            "month": 10,
+            "day": 4,
+            "hour": 0,
+            "minute": 0,
+            "second": 0
+          }
+        },
+        {
+          "description": "公元 1 年元旦",
+          "input": 1721423.5,
+          "expected": {
+            "year": 1,
+            "month": 1,
+            "day": 1,
+            "hour": 0,
+            "minute": 0,
+            "second": 0
+          }
+        },
+        {
+          "description": "帶小數",
+          "input": 2461173.708333,
+          "expected": {
+            "year": 2026,
+            "month": 5,
+            "day": 13,
+            "hour": 4,
+            "minute": 59,
+            "second": 59.97120648622513
+          }
+        },
+        {
+          "description": "遠古",
+          "input": 1000000,
+          "expected": {
+            "year": -1975,
+            "month": 11,
+            "day": 7,
+            "hour": 12,
+            "minute": 0,
+            "second": 0
+          }
+        },
+        {
+          "description": "遠未來",
+          "input": 3000000,
+          "expected": {
+            "year": 3501,
+            "month": 8,
+            "day": 15,
+            "hour": 12,
+            "minute": 0,
+            "second": 0
+          }
+        }
+      ],
+      "julianDayToWeekday": [
+        {
+          "description": "J2000 = 週六",
+          "input": 2451545,
+          "expected": 6
+        },
+        {
+          "description": "Unix epoch = 週四",
+          "input": 2440587.5,
+          "expected": 4
+        },
+        {
+          "description": "2026-05-14 = 週四",
+          "input": 2461174.5,
+          "expected": 4
+        },
+        {
+          "description": "2024-02-29 = 週四",
+          "input": 2460369.5,
+          "expected": 4
+        }
+      ],
+      "julianDayOfNthWeekday": [
+        {
+          "description": "2026 年 5 月第二個週日（母親節）",
+          "input": [2026, 5, 2, 0],
+          "expected": 2461171
+        },
+        {
+          "description": "2026 年 6 月第三個週日（國際父親節）",
+          "input": [2026, 6, 3, 0],
+          "expected": 2461213
+        },
+        {
+          "description": "2026 年 11 月第四個週四（感恩節）",
+          "input": [2026, 11, 4, 4],
+          "expected": 2461371
+        },
+        {
+          "description": "2026 年 1 月第一個週一",
+          "input": [2026, 1, 1, 1],
+          "expected": 2461046
+        },
+        {
+          "description": "2026 年 2 月第五個週日（不存在則回該月最後一個）",
+          "input": [2026, 2, 5, 0],
+          "expected": 2461094
+        }
+      ]
+    },
+    "deltaT": {
+      "computeDeltaT": [
+        {
+          "description": "遠古 −2000",
+          "input": -2000,
+          "expected": 46675.70000000001
+        },
+        {
+          "description": "商周之際 −1000",
+          "input": -1000,
+          "expected": 25427.700000000008
+        },
+        {
+          "description": "公元元年",
+          "input": 1,
+          "expected": 10573.571592433334
+        },
+        {
+          "description": "南北朝 500",
+          "input": 500,
+          "expected": 5707.5
+        },
+        {
+          "description": "盛唐 1000",
+          "input": 1000,
+          "expected": 1573.4593750000001
+        },
+        {
+          "description": "明朝 1500",
+          "input": 1500,
+          "expected": 198.3
+        },
+        {
+          "description": "清初 1700",
+          "input": 1700,
+          "expected": 10.2
+        },
+        {
+          "description": "清中 1800",
+          "input": 1800,
+          "expected": 13.4
+        },
+        {
+          "description": "清末 1900",
+          "input": 1900,
+          "expected": -2.3
+        },
+        {
+          "description": "戰後 1950",
+          "input": 1950,
+          "expected": 29.087499999999995
+        },
+        {
+          "description": "J2000 邊界",
+          "input": 2000,
+          "expected": 63.87
+        },
+        {
+          "description": "近期 2012 邊界",
+          "input": 2012,
+          "expected": 66.8
+        },
+        {
+          "description": "近期 2020",
+          "input": 2020,
+          "expected": 69.3612
+        },
+        {
+          "description": "當前 2026",
+          "input": 2026,
+          "expected": 68.989075
+        },
+        {
+          "description": "表尾 2050",
+          "input": 2050,
+          "expected": 71.0457
+        },
+        {
+          "description": "表外近端 2055",
+          "input": 2055,
+          "expected": 81.90041500000004
+        },
+        {
+          "description": "表外遠端 2100",
+          "input": 2100,
+          "expected": 186.56784999999996
+        },
+        {
+          "description": "極遠未來 3000",
+          "input": 3000,
+          "expected": 4296.4400000000005
+        }
+      ],
+      "deltaT": [
+        {
+          "description": "J2000 起算 0 天",
+          "input": 0,
+          "expected": 0.0007392361111111111
+        },
+        {
+          "description": "J2000 起算 1 年",
+          "input": 365.2425,
+          "expected": 0.0007415509259259259
+        },
+        {
+          "description": "J2000 起算 100 年",
+          "input": 36524.25,
+          "expected": 0.0021593501157407403
+        },
+        {
+          "description": "J2000 起算 −1000 年",
+          "input": -365242.5,
+          "expected": 0.018211335358796297
+        }
+      ]
+    }
+  }
+}
