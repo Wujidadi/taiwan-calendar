@@ -9,10 +9,7 @@ import {
   formatRadianToMinute,
   parseAngleToRadian,
 } from '#astro/angle-format'
-import {
-  earthLongitudeToTime,
-  moonLongitudeToTime,
-} from '#astro/ephemeris'
+import { earthLongitudeToTime, moonLongitudeToTime } from '#astro/ephemeris'
 import {
   formatGregorianPrecise,
   formatTimeOfDay,
@@ -150,17 +147,17 @@ describe('angle-format', () => {
 
   describe('parseAngleToRadian', () => {
     it('度分秒字串 "180°00′00″" → π（誤差 < 1e-9）', () => {
-      const r = parseAngleToRadian("180°00'00\"", false)
+      const r = parseAngleToRadian('180°00\'00"', false)
       expect(r).toBeCloseTo(Math.PI, 9)
     })
 
     it('度分秒字串 "90°00′00″" → π/2', () => {
-      const r = parseAngleToRadian("90°00'00\"", false)
+      const r = parseAngleToRadian('90°00\'00"', false)
       expect(r).toBeCloseTo(Math.PI / 2, 9)
     })
 
     it('負角度字串 "-30°00′00″" → 負值', () => {
-      const r = parseAngleToRadian("-30°00'00\"", false)
+      const r = parseAngleToRadian('-30°00\'00"', false)
       expect(r).toBeLessThan(0)
     })
 
@@ -173,7 +170,10 @@ describe('angle-format', () => {
       const deg30 = 30 * (Math.PI / 180)
       const str = formatRadianFull(deg30, false, 3, DEFAULT_ANGLE_UNITS)
       // 擷取數字部分重新組成 "DDD MM SS.sss"
-      const nums = str.replace(/[°′″ ]/g, ' ').trim().replace(/ +/g, ' ')
+      const nums = str
+        .replace(/[°′″ ]/g, ' ')
+        .trim()
+        .replace(/ +/g, ' ')
       const parsed = parseAngleToRadian(nums, false)
       expect(parsed).toBeCloseTo(deg30, 4)
     })
@@ -186,7 +186,7 @@ describe('rise-set extra', () => {
   // 台北：東經 121.5°、北緯 25°
   const TAIPEI = {
     longitude: 121.5 * (Math.PI / 180),
-    latitude:  25.0  * (Math.PI / 180),
+    latitude: 25.0 * (Math.PI / 180),
   }
   // multiDayRiseTransitSet 需要整數 JD（午夜值 = .5 小數）
   // 2026-05-14 午夜 = JD 2461174.5，傳入整數 2461174（其 +0.5 = 2026-05-14 正午）
@@ -248,8 +248,12 @@ describe('julian-day extra', () => {
 
     it('毫秒進位邊界：second=59.9999 不溢位', () => {
       const g = {
-        year: 2000, month: 1, day: 1,
-        hour: 0, minute: 0, second: 59.9999,
+        year: 2000,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 59.9999,
       }
       const s = formatGregorianPrecise(g)
       // 不應包含 "60" 於秒位
@@ -258,8 +262,12 @@ describe('julian-day extra', () => {
 
     it('時分進位邊界：minute=59.999… 不溢位', () => {
       const g = {
-        year: 2000, month: 1, day: 1,
-        hour: 0, minute: 59, second: 59.9995,
+        year: 2000,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 59,
+        second: 59.9995,
       }
       const s = formatGregorianPrecise(g)
       expect(s).not.toMatch(/:60$/)
@@ -267,8 +275,12 @@ describe('julian-day extra', () => {
 
     it('h>=24 進位修正後不超出一日', () => {
       const g = {
-        year: 2000, month: 1, day: 1,
-        hour: 23, minute: 59, second: 59.9995,
+        year: 2000,
+        month: 1,
+        day: 1,
+        hour: 23,
+        minute: 59,
+        second: 59.9995,
       }
       const s = formatGregorianPrecise(g)
       // hour 欄不能出現 24
@@ -300,7 +312,7 @@ describe('julian-day extra', () => {
     })
 
     it('格式符合 HH:mm:ss（8 字元）', () => {
-      const jd = gregorianToJulianDay(2026, 5, 14.5) as unknown as number - 2451545
+      const jd = (gregorianToJulianDay(2026, 5, 14.5) as unknown as number) - 2451545
       const s = formatTimeOfDay(jd as never)
       expect(s).toHaveLength(8)
       expect(s).toMatch(/^\d{2}:\d{2}:\d{2}$/)
@@ -359,14 +371,14 @@ describe('stellar', () => {
   //   μα ≈ −3.847e-5 rad/cy, μδ ≈ −1.224e-4 rad/cy（自行極小，略）
   //   parallax ≈ 379.21 arcsec（視差 0.37921"）
   const SIRIUS_TABLE: readonly (string | number)[] = [
-    1.7675,    // α0
-    -0.2911,   // δ0
+    1.7675, // α0
+    -0.2911, // δ0
     -3.847e-5, // μα（rad/century）
     -1.224e-4, // μδ
-    0.37921,   // parallax（arcsec）
-    'A1V',     // spectral
-    'Sirius',  // name
-    'α CMa',   // id
+    0.37921, // parallax（arcsec）
+    'A1V', // spectral
+    'Sirius', // name
+    'α CMa', // id
   ]
 
   it('mode 0（視位置）回傳非空字串', () => {
@@ -376,7 +388,7 @@ describe('stellar', () => {
       -1,
       0,
       121.5 * (Math.PI / 180),
-      25.0  * (Math.PI / 180),
+      25.0 * (Math.PI / 180),
     )
     expect(typeof result).toBe('string')
     expect(result.length).toBeGreaterThan(0)
@@ -389,7 +401,7 @@ describe('stellar', () => {
       -1,
       1,
       121.5 * (Math.PI / 180),
-      25.0  * (Math.PI / 180),
+      25.0 * (Math.PI / 180),
     )
     expect(result).toContain('Topocentric')
   })
@@ -401,7 +413,7 @@ describe('stellar', () => {
       -1,
       2,
       121.5 * (Math.PI / 180),
-      25.0  * (Math.PI / 180),
+      25.0 * (Math.PI / 180),
     )
     expect(result).toContain('Mean')
   })
@@ -413,7 +425,7 @@ describe('stellar', () => {
       -1,
       0,
       121.5 * (Math.PI / 180),
-      25.0  * (Math.PI / 180),
+      25.0 * (Math.PI / 180),
     )
     expect(result).toContain('Sirius')
   })
@@ -426,17 +438,17 @@ describe('lunar extras', () => {
     it('春節（正月初一，非閏）寫入 holidayA 與 isHoliday', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '正',
-        lunarDayName:   '初一',
-        lunarLeap:      '',
+        lunarDayName: '初一',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -447,17 +459,17 @@ describe('lunar extras', () => {
     it('端午節（五月初五）寫入 holidayA', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '五',
-        lunarDayName:   '初五',
-        lunarLeap:      '',
+        lunarDayName: '初五',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   29,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 29,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -467,17 +479,17 @@ describe('lunar extras', () => {
     it('正月十五（元宵節）寫入 holidayA、B、C', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '正',
-        lunarDayName:   '十五',
-        lunarLeap:      '',
+        lunarDayName: '十五',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -489,17 +501,17 @@ describe('lunar extras', () => {
     it('二月初二（春龍節）寫入 holidayB、C', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '二',
-        lunarDayName:   '初二',
-        lunarLeap:      '',
+        lunarDayName: '初二',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -509,17 +521,17 @@ describe('lunar extras', () => {
     it('三月初三（北帝誕）寫入 holidayB、C', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '三',
-        lunarDayName:   '初三',
-        lunarLeap:      '',
+        lunarDayName: '初三',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -529,17 +541,17 @@ describe('lunar extras', () => {
     it('五月十三（關帝誕）寫入 holidayB、C', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '五',
-        lunarDayName:   '十三',
-        lunarLeap:      '',
+        lunarDayName: '十三',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -549,17 +561,17 @@ describe('lunar extras', () => {
     it('六月初六（姑姑節）寫入 holidayB、C', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '六',
-        lunarDayName:   '初六',
-        lunarLeap:      '',
+        lunarDayName: '初六',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -569,17 +581,17 @@ describe('lunar extras', () => {
     it('閏月不觸發節日判斷', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '正',
-        lunarDayName:   '初一',
-        lunarLeap:      '閏',          // 閏月，不觸發春節
+        lunarDayName: '初一',
+        lunarLeap: '閏', // 閏月，不觸發春節
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -589,17 +601,17 @@ describe('lunar extras', () => {
     it('除夕（十二月三十，大月）觸發 holidayA', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '十二',
-        lunarDayName:   '三十',
-        lunarLeap:      '',
+        lunarDayName: '三十',
+        lunarLeap: '',
         lunarNextMonthName: '正',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -609,17 +621,17 @@ describe('lunar extras', () => {
     it('除夕（十二月廿九，小月）觸發 holidayA', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '十二',
-        lunarDayName:   '廿九',
-        lunarLeap:      '',
+        lunarDayName: '廿九',
+        lunarLeap: '',
         lunarNextMonthName: '正',
-        lunarMonthLength:   29,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 29,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -629,17 +641,17 @@ describe('lunar extras', () => {
     it('小年（十二月廿三）寫入 holidayB', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '十二',
-        lunarDayName:   '廿三',
-        lunarLeap:      '',
+        lunarDayName: '廿三',
+        lunarLeap: '',
         lunarNextMonthName: '正',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -649,17 +661,17 @@ describe('lunar extras', () => {
     it('清明節（solarTermLabel）觸發 holidayA 與 isHoliday', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '三',
-        lunarDayName:   '初三',
-        lunarLeap:      '',
+        lunarDayName: '初三',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '清明',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '清明',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -670,17 +682,17 @@ describe('lunar extras', () => {
     it('非清明節氣寫入 holidayB', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '一',
-        lunarDayName:   '初一',
-        lunarLeap:      '',
+        lunarDayName: '初一',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '穀雨',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   -1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '穀雨',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: -1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -690,17 +702,17 @@ describe('lunar extras', () => {
     it('數九第一天（冬至後 0 天）寫入 holidayB 含「一九」', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '十一',
-        lunarDayName:   '初一',
-        lunarLeap:      '',
+        lunarDayName: '初一',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   0,  // 冬至當天，進入一九
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: 0, // 冬至當天，進入一九
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -710,17 +722,17 @@ describe('lunar extras', () => {
     it('數九第二天（冬至後 1 天）寫入 holidayC', () => {
       const u: Record<string, unknown> = {
         lunarMonthName: '十一',
-        lunarDayName:   '初二',
-        lunarLeap:      '',
+        lunarDayName: '初二',
+        lunarLeap: '',
         lunarNextMonthName: '',
-        lunarMonthLength:   30,
-        solarTermLabel:     '',
-        lunarDayGanZhi:     '甲子',
-        daysSinceDongzhi:   1,
-        daysSinceXiazhi:    -1,
-        daysSinceLiqiu:     -1,
+        lunarMonthLength: 30,
+        solarTermLabel: '',
+        lunarDayGanZhi: '甲子',
+        daysSinceDongzhi: 1,
+        daysSinceXiazhi: -1,
+        daysSinceLiqiu: -1,
         daysSinceMangzhong: -1,
-        daysSinceXiaoshu:   -1,
+        daysSinceXiaoshu: -1,
       }
       const r: Record<string, unknown> = {}
       getLunarDayName(u, r)
@@ -737,7 +749,7 @@ describe('lunar extras', () => {
       expect(typeof ob.baziMonth).toBe('string')
       expect(typeof ob.baziDay).toBe('string')
       expect(typeof ob.baziHour).toBe('string')
-      expect((ob.baziYear as string).length).toBe(2)   // 兩個漢字
+      expect((ob.baziYear as string).length).toBe(2) // 兩個漢字
       expect((ob.baziMonth as string).length).toBe(2)
       expect((ob.baziDay as string).length).toBe(2)
     })

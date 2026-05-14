@@ -7,7 +7,7 @@ export function useEraYear() {
   function eraYear(year: number): string {
     if (locale.value === 'zh-tw') {
       if (year >= 1912) return `${t('era.roc')} ${year - 1911} 年`
-      if (year > 0)  return `${t('era.gregorian')} ${year} 年`
+      if (year > 0) return `${t('era.gregorian')} ${year} 年`
       return `${t('era.bc')} ${1 - year} 年`
     }
     if (year > 0) return String(year)

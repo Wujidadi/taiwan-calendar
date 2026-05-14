@@ -98,16 +98,18 @@ test('主題切換後 html 元素正確加上 dark 類別', async ({ page }) => 
   await waitReady(page)
   const html = page.locator('html')
   // 尋找主題切換區域內的「暗色」按鈕
-  const darkBtn = page.locator('nav button', { hasText: '暗色' }).or(
-    page.locator('header button', { hasText: '暗色' })
-  ).first()
+  const darkBtn = page
+    .locator('nav button', { hasText: '暗色' })
+    .or(page.locator('header button', { hasText: '暗色' }))
+    .first()
   await darkBtn.waitFor({ state: 'visible', timeout: 10000 })
   await darkBtn.click()
   await expect(html).toHaveClass(/dark/)
   // 切換回亮色
-  const lightBtn = page.locator('nav button', { hasText: '亮色' }).or(
-    page.locator('header button', { hasText: '亮色' })
-  ).first()
+  const lightBtn = page
+    .locator('nav button', { hasText: '亮色' })
+    .or(page.locator('header button', { hasText: '亮色' }))
+    .first()
   await lightBtn.click()
   await expect(html).not.toHaveClass(/dark/)
 })

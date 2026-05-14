@@ -78,12 +78,16 @@ const cells = computed((): (CalCell | null)[] => {
 
 // ── 導覽 ──
 function prevMonth() {
-  if (viewMonth.value === 1) { viewYear.value--; viewMonth.value = 12 }
-  else viewMonth.value--
+  if (viewMonth.value === 1) {
+    viewYear.value--
+    viewMonth.value = 12
+  } else viewMonth.value--
 }
 function nextMonth() {
-  if (viewMonth.value === 12) { viewYear.value++; viewMonth.value = 1 }
-  else viewMonth.value++
+  if (viewMonth.value === 12) {
+    viewYear.value++
+    viewMonth.value = 1
+  } else viewMonth.value++
 }
 function goToday() {
   viewYear.value = today.getFullYear()
@@ -104,9 +108,7 @@ function goToday() {
       </button>
 
       <div class="text-center">
-        <h2 class="codex-heading text-2xl">
-          {{ monthName }} · {{ yearLabel }}
-        </h2>
+        <h2 class="codex-heading text-2xl">{{ monthName }} · {{ yearLabel }}</h2>
         <button
           type="button"
           class="text-xs text-ink-500 dark:text-paper-400 hover:text-crimson mt-1"
@@ -128,7 +130,7 @@ function goToday() {
     <!-- 星期列頭 -->
     <div class="grid grid-cols-7 mb-1">
       <div
-        v-for="(wd, i) in (tm('calendar.weekdays') as string[])"
+        v-for="(wd, i) in tm('calendar.weekdays') as string[]"
         :key="i"
         class="py-2 text-center text-sm font-medium text-ink-500 dark:text-paper-400"
         :class="i === 0 || i === 6 ? 'text-crimson' : ''"
@@ -154,21 +156,25 @@ function goToday() {
             class="text-base font-semibold leading-none"
             :class="{
               'text-crimson': cell.weekday === 0 || cell.weekday === 6,
-              'w-7 h-7 flex items-center justify-center rounded-full bg-crimson text-paper-50 dark:text-paper-50': cell.isToday,
+              'w-7 h-7 flex items-center justify-center rounded-full bg-crimson text-paper-50 dark:text-paper-50':
+                cell.isToday,
             }"
-          >{{ cell.day }}</span>
+            >{{ cell.day }}</span
+          >
 
           <!-- 節氣 -->
           <span
             v-if="cell.solarTermLabel"
             class="block text-xs text-green-700 dark:text-green-400 font-medium mt-0.5 truncate"
-          >{{ cell.solarTermLabel }}</span>
+            >{{ cell.solarTermLabel }}</span
+          >
 
           <!-- 月相 -->
           <span
             v-if="cell.moonPhaseName && cell.moonPhaseName !== cell.solarTermLabel"
             class="block text-xs text-blue-600 dark:text-blue-400 mt-0.5 truncate"
-          >{{ cell.moonPhaseName }}</span>
+            >{{ cell.moonPhaseName }}</span
+          >
 
           <!-- 農曆（月名 or 日名） -->
           <span class="block text-xs text-ink-400 dark:text-paper-500 mt-0.5 truncate">
@@ -182,7 +188,8 @@ function goToday() {
           <span
             v-if="cell.holidayA"
             class="block text-xs text-amber-600 dark:text-amber-400 truncate"
-          >{{ cell.holidayA }}</span>
+            >{{ cell.holidayA }}</span
+          >
         </template>
       </div>
     </div>

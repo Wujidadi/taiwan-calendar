@@ -20,10 +20,7 @@
 import { J2000, TWO_PI } from '../astro/constants'
 import { deltaT } from '../astro/delta-t'
 import { gregorianToJulianDay, julianDayToGregorian, formatTimeOfDay } from '../astro/julian-day'
-import {
-  sunApparentLongitude,
-  moonSunApparentLongDiff,
-} from '../astro/ephemeris'
+import { sunApparentLongitude, moonSunApparentLongDiff } from '../astro/ephemeris'
 import {
   getReignTitle,
   getLunarDayName,
@@ -35,14 +32,84 @@ import { shuoQiCalculator } from './ssq'
 
 // ── 干支與農曆字串常數 ──
 
-const HEAVENLY_STEMS   = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸']
-const EARTHLY_BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥']
-const ZODIAC           = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬']
-const DAY_NAMES        = ['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十','卅一']
-const MOON_PHASES      = ['朔','上弦','望','下弦']
-const SOLAR_TERMS      = ['冬至','小寒','大寒','立春','雨水','驚蟄','春分','清明','穀雨','立夏','小滿','芒種','夏至','小暑','大暑','立秋','處暑','白露','秋分','寒露','霜降','立冬','小雪','大雪']
-const WESTERN_ZODIAC   = ['摩羯','水瓶','雙魚','白羊','金牛','雙子','巨蟹','獅子','處女','天秤','天蠍','射手']
-const LEAP_PREFIX      = '閏'
+const HEAVENLY_STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
+const EARTHLY_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
+const ZODIAC = ['鼠', '牛', '虎', '兔', '龍', '蛇', '馬', '羊', '猴', '雞', '狗', '豬']
+const DAY_NAMES = [
+  '初一',
+  '初二',
+  '初三',
+  '初四',
+  '初五',
+  '初六',
+  '初七',
+  '初八',
+  '初九',
+  '初十',
+  '十一',
+  '十二',
+  '十三',
+  '十四',
+  '十五',
+  '十六',
+  '十七',
+  '十八',
+  '十九',
+  '二十',
+  '廿一',
+  '廿二',
+  '廿三',
+  '廿四',
+  '廿五',
+  '廿六',
+  '廿七',
+  '廿八',
+  '廿九',
+  '三十',
+  '卅一',
+]
+const MOON_PHASES = ['朔', '上弦', '望', '下弦']
+const SOLAR_TERMS = [
+  '冬至',
+  '小寒',
+  '大寒',
+  '立春',
+  '雨水',
+  '驚蟄',
+  '春分',
+  '清明',
+  '穀雨',
+  '立夏',
+  '小滿',
+  '芒種',
+  '夏至',
+  '小暑',
+  '大暑',
+  '立秋',
+  '處暑',
+  '白露',
+  '秋分',
+  '寒露',
+  '霜降',
+  '立冬',
+  '小雪',
+  '大雪',
+]
+const WESTERN_ZODIAC = [
+  '摩羯',
+  '水瓶',
+  '雙魚',
+  '白羊',
+  '金牛',
+  '雙子',
+  '巨蟹',
+  '獅子',
+  '處女',
+  '天秤',
+  '天蠍',
+  '射手',
+]
+const LEAP_PREFIX = '閏'
 
 // 取得月首儒略日（北京中午 12:00:00.1，以原始實作的浮點精度為準）。
 function firstDayJD(year: number, month: number): number {
@@ -51,14 +118,14 @@ function firstDayJD(year: number, month: number): number {
 }
 
 export class LunarMonth {
-  year        = 0
-  month       = 0
-  firstJD     = 0
+  year = 0
+  month = 0
+  firstJD = 0
   monthLength = 0
   firstWeekday = 0
-  yearGanZhi  = ''
+  yearGanZhi = ''
   zodiacAnimal = ''
-  reignTitle  = ''
+  reignTitle = ''
   days: Record<string, unknown>[]
 
   constructor() {
@@ -76,106 +143,123 @@ export class LunarMonth {
   // 計算公曆某月的三合曆。
   calcMonth(year: number, month: number): void {
     const Bd0 = firstDayJD(year, month)
-    let nextYear = year, nextMonth = month + 1
-    if (nextMonth > 12) { nextYear++; nextMonth = 1 }
+    let nextYear = year,
+      nextMonth = month + 1
+    if (nextMonth > 12) {
+      nextYear++
+      nextMonth = 1
+    }
     const Bdn = firstDayJD(nextYear, nextMonth) - Bd0
 
     this.firstWeekday = (Bd0 + J2000 + 1 + 7000000) % 7
-    this.year         = year
-    this.month        = month
-    this.firstJD      = Bd0
-    this.monthLength  = Bdn
+    this.year = year
+    this.month = month
+    this.firstJD = Bd0
+    this.monthLength = Bdn
 
-    const stems    = HEAVENLY_STEMS
+    const stems = HEAVENLY_STEMS
     const branches = EARTHLY_BRANCHES
-    const zodiac   = ZODIAC
+    const zodiac = ZODIAC
     const dayNames = DAY_NAMES
-    const phases   = MOON_PHASES
-    const terms    = SOLAR_TERMS
-    const western  = WESTERN_ZODIAC
+    const phases = MOON_PHASES
+    const terms = SOLAR_TERMS
+    const western = WESTERN_ZODIAC
     const leapPrefix = LEAP_PREFIX
 
     // 干支紀年與生肖
     const c = year - 1984 + 12000
-    this.yearGanZhi   = stems[c % 10]! + branches[c % 12]!
+    this.yearGanZhi = stems[c % 10]! + branches[c % 12]!
     this.zodiacAnimal = zodiac[c % 12]!
-    this.reignTitle   = getReignTitle(year)
+    this.reignTitle = getReignTitle(year)
 
     // 提取各日資訊
     for (let i = 0; i < Bdn; i++) {
       const ob = this.days[i]!
-      ob['jdNoon']       = Bd0 + i
-      ob['dayIndex']     = i
-      ob['year']         = year
-      ob['month']        = month
-      ob['monthLength']  = Bdn
+      ob['jdNoon'] = Bd0 + i
+      ob['dayIndex'] = i
+      ob['year'] = year
+      ob['month'] = month
+      ob['monthLength'] = Bdn
       ob['firstWeekday'] = this.firstWeekday
-      ob['weekday']      = (this.firstWeekday + i) % 7
-      ob['weekIndex']    = Math.floor((this.firstWeekday + i) / 7)
-      ob['weekCount']    = Math.floor((this.firstWeekday + Bdn - 1) / 7) + 1
-      ob['day']          = julianDayToGregorian((ob['jdNoon'] as number + J2000) as never).day
+      ob['weekday'] = (this.firstWeekday + i) % 7
+      ob['weekIndex'] = Math.floor((this.firstWeekday + i) / 7)
+      ob['weekCount'] = Math.floor((this.firstWeekday + Bdn - 1) / 7) + 1
+      ob['day'] = julianDayToGregorian(((ob['jdNoon'] as number) + J2000) as never).day
 
       // 農曆月曆
       const jdNoon = ob['jdNoon'] as number
-      if (!shuoQiCalculator.centralQiList.length
-          || jdNoon < shuoQiCalculator.centralQiList[0]!
-          || jdNoon >= shuoQiCalculator.centralQiList[24]!) {
+      if (
+        !shuoQiCalculator.centralQiList.length ||
+        jdNoon < shuoQiCalculator.centralQiList[0]! ||
+        jdNoon >= shuoQiCalculator.centralQiList[24]!
+      ) {
         shuoQiCalculator.calcYear(jdNoon)
       }
       let mk = Math.floor((jdNoon - shuoQiCalculator.newMoonList[0]!) / 30)
       if (mk < 13 && shuoQiCalculator.newMoonList[mk + 1]! <= jdNoon) mk++
 
-      ob['lunarDayIndex']      = jdNoon - shuoQiCalculator.newMoonList[mk]!
-      ob['lunarDayName']       = dayNames[ob['lunarDayIndex'] as number]
-      ob['daysSinceDongzhi']   = jdNoon - shuoQiCalculator.centralQiList[0]!
-      ob['daysSinceXiazhi']    = jdNoon - shuoQiCalculator.centralQiList[12]!
-      ob['daysSinceLiqiu']     = jdNoon - shuoQiCalculator.centralQiList[15]!
+      ob['lunarDayIndex'] = jdNoon - shuoQiCalculator.newMoonList[mk]!
+      ob['lunarDayName'] = dayNames[ob['lunarDayIndex'] as number]
+      ob['daysSinceDongzhi'] = jdNoon - shuoQiCalculator.centralQiList[0]!
+      ob['daysSinceXiazhi'] = jdNoon - shuoQiCalculator.centralQiList[12]!
+      ob['daysSinceLiqiu'] = jdNoon - shuoQiCalculator.centralQiList[15]!
       ob['daysSinceMangzhong'] = jdNoon - shuoQiCalculator.centralQiList[11]!
-      ob['daysSinceXiaoshu']   = jdNoon - shuoQiCalculator.centralQiList[13]!
+      ob['daysSinceXiaoshu'] = jdNoon - shuoQiCalculator.centralQiList[13]!
 
       if (jdNoon === shuoQiCalculator.newMoonList[mk]! || jdNoon === Bd0) {
-        ob['lunarMonthName']     = String(shuoQiCalculator.monthNames[mk]!)
-        ob['lunarMonthLength']   = shuoQiCalculator.monthLengths[mk]
-        ob['lunarLeap']          = (shuoQiCalculator.leapMonth && shuoQiCalculator.leapMonth === mk) ? leapPrefix : ''
+        ob['lunarMonthName'] = String(shuoQiCalculator.monthNames[mk]!)
+        ob['lunarMonthLength'] = shuoQiCalculator.monthLengths[mk]
+        ob['lunarLeap'] =
+          shuoQiCalculator.leapMonth && shuoQiCalculator.leapMonth === mk ? leapPrefix : ''
         ob['lunarNextMonthName'] = mk < 13 ? String(shuoQiCalculator.monthNames[mk + 1]!) : '未知'
       } else {
         const prev = this.days[i - 1]!
-        ob['lunarMonthName']     = prev['lunarMonthName']
-        ob['lunarMonthLength']   = prev['lunarMonthLength']
-        ob['lunarLeap']          = prev['lunarLeap']
+        ob['lunarMonthName'] = prev['lunarMonthName']
+        ob['lunarMonthLength'] = prev['lunarMonthLength']
+        ob['lunarLeap'] = prev['lunarLeap']
         ob['lunarNextMonthName'] = prev['lunarNextMonthName']
       }
 
       let qk = Math.floor((jdNoon - shuoQiCalculator.centralQiList[0]! - 7) / 15.2184)
       if (qk < 23 && jdNoon >= shuoQiCalculator.centralQiList[qk + 1]!) qk++
-      ob['solarTermLabel'] = (jdNoon === shuoQiCalculator.centralQiList[qk]!) ? terms[qk]! : ''
+      ob['solarTermLabel'] = jdNoon === shuoQiCalculator.centralQiList[qk]! ? terms[qk]! : ''
 
       ob['moonPhaseName'] = ob['moonPhaseJD'] = ob['moonPhaseTimeStr'] = ''
       ob['solarTermName'] = ob['solarTermJD'] = ob['solarTermTimeStr'] = ''
 
       // 干支紀年（以立春為界）
-      let D = shuoQiCalculator.centralQiList[3]! + (jdNoon < shuoQiCalculator.centralQiList[3]! ? -365 : 0) + 365.25 * 16 - 35
+      let D =
+        shuoQiCalculator.centralQiList[3]! +
+        (jdNoon < shuoQiCalculator.centralQiList[3]! ? -365 : 0) +
+        365.25 * 16 -
+        35
       ob['lunarYearNum'] = Math.floor(D / 365.2422 + 0.5) // 1984 起算
 
       // 以正月初一定年首
       D = shuoQiCalculator.newMoonList[2]!
       for (let j = 0; j < 14; j++) {
-        if (shuoQiCalculator.monthNames[j] !== '正' || (shuoQiCalculator.leapMonth === j && j)) continue
+        if (shuoQiCalculator.monthNames[j] !== '正' || (shuoQiCalculator.leapMonth === j && j))
+          continue
         D = shuoQiCalculator.newMoonList[j]!
-        if (jdNoon < D) { D -= 365; break }
+        if (jdNoon < D) {
+          D -= 365
+          break
+        }
       }
       D += 5810
       ob['lunarYearNumNewYear'] = Math.floor(D / 365.2422 + 0.5)
 
-      D = (ob['lunarYearNum'] as number)        + 12000; ob['lunarYearGanZhi']  = stems[D % 10]! + branches[D % 12]!
-      D = (ob['lunarYearNumNewYear'] as number) + 12000; ob['lunarYearGanZhi2'] = stems[D % 10]! + branches[D % 12]!
+      D = (ob['lunarYearNum'] as number) + 12000
+      ob['lunarYearGanZhi'] = stems[D % 10]! + branches[D % 12]!
+      D = (ob['lunarYearNumNewYear'] as number) + 12000
+      ob['lunarYearGanZhi2'] = stems[D % 10]! + branches[D % 12]!
       ob['lunarYearHuangdi'] = (ob['lunarYearNumNewYear'] as number) + 1984 + 2698
 
       // 紀月（1998-12-7 大雪起算，0 為甲子）
       mk = Math.floor((jdNoon - shuoQiCalculator.centralQiList[0]!) / 30.43685)
       if (mk < 12 && jdNoon >= shuoQiCalculator.centralQiList[2 * mk + 1]!) mk++
       D = mk + Math.floor((shuoQiCalculator.centralQiList[12]! + 390) / 365.2422) * 12 + 900000
-      ob['lunarMonthNum']    = D % 12
+      ob['lunarMonthNum'] = D % 12
       ob['lunarMonthGanZhi'] = stems[D % 10]! + branches[D % 12]!
 
       // 紀日（2000-1-7 起算）
@@ -202,38 +286,38 @@ export class LunarMonth {
 
     // 月相查找
     let w = moonSunApparentLongDiff(jd2 / 36525, 10, 3)
-    w = Math.floor((w - 0.78) / Math.PI * 2) * Math.PI / 2
+    w = (Math.floor(((w - 0.78) / Math.PI) * 2) * Math.PI) / 2
     do {
       const d = preciseNewMoonFromLongitude(w)
       const D = Math.floor(d + 0.5)
-      const xn = Math.floor(w / TWO_PI * 4 + 4000000.01) % 4
+      const xn = Math.floor((w / TWO_PI) * 4 + 4000000.01) % 4
       w += TWO_PI / 4
       if (D >= Bd0 + Bdn) break
       if (D < Bd0) continue
       const ob = this.days[D - Bd0]!
-      ob['moonPhaseName']    = phases[xn]!
-      ob['moonPhaseJD']      = d
+      ob['moonPhaseName'] = phases[xn]!
+      ob['moonPhaseJD'] = d
       ob['moonPhaseTimeStr'] = formatTimeOfDay(d as never)
       if (D + 5 >= Bd0 + Bdn) break
-    // eslint-disable-next-line no-constant-condition
+      // eslint-disable-next-line no-constant-condition
     } while (true)
 
     // 節氣查找
     w = sunApparentLongitude(jd2 / 36525, 3)
-    w = Math.floor((w - 0.13) / TWO_PI * 24) * TWO_PI / 24
+    w = (Math.floor(((w - 0.13) / TWO_PI) * 24) * TWO_PI) / 24
     do {
       const d = preciseSolarTermFromLongitude(w)
       const D = Math.floor(d + 0.5)
-      const xn = Math.floor(w / TWO_PI * 24 + 24000006.01) % 24
+      const xn = Math.floor((w / TWO_PI) * 24 + 24000006.01) % 24
       w += TWO_PI / 24
       if (D >= Bd0 + Bdn) break
       if (D < Bd0) continue
       const ob = this.days[D - Bd0]!
-      ob['solarTermName']    = terms[xn]!
-      ob['solarTermJD']      = d
+      ob['solarTermName'] = terms[xn]!
+      ob['solarTermJD'] = d
       ob['solarTermTimeStr'] = formatTimeOfDay(d as never)
       if (D + 12 >= Bd0 + Bdn) break
-    // eslint-disable-next-line no-constant-condition
+      // eslint-disable-next-line no-constant-condition
     } while (true)
   }
 }

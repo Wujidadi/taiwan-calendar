@@ -40,7 +40,7 @@ const months = computed((): MonthSummary[] => {
     lm.calcMonth(year.value, m)
 
     const solarTerms: { day: number; label: string }[] = []
-    const moonPhases:  { day: number; name: string }[] = []
+    const moonPhases: { day: number; name: string }[] = []
 
     for (let i = 0; i < lm.monthLength; i++) {
       const d = lm.days[i] as Record<string, unknown>
@@ -66,14 +66,19 @@ const months = computed((): MonthSummary[] => {
 })
 
 // ── 導覽 ──
-function prevYear() { year.value-- }
-function nextYear() { year.value++ }
-function goThisYear() { year.value = new Date().getFullYear() }
+function prevYear() {
+  year.value--
+}
+function nextYear() {
+  year.value++
+}
+function goThisYear() {
+  year.value = new Date().getFullYear()
+}
 </script>
 
 <template>
   <div class="max-w-5xl mx-auto">
-
     <!-- 頁首：年份導覽 -->
     <div class="flex items-center justify-between mb-8">
       <button
@@ -118,9 +123,7 @@ function goThisYear() { year.value = new Date().getFullYear() }
           <h3 class="codex-heading text-lg font-semibold">
             {{ ms.name }}
           </h3>
-          <span class="text-xs text-ink-400 dark:text-paper-500">
-            {{ ms.days }} 日
-          </span>
+          <span class="text-xs text-ink-400 dark:text-paper-500"> {{ ms.days }} 日 </span>
         </div>
 
         <div class="codex-divider mb-3" />
@@ -130,10 +133,7 @@ function goThisYear() { year.value = new Date().getFullYear() }
           <span class="text-xs text-ink-400 dark:text-paper-500 block mb-1">
             {{ t('calendar.solarTermLabel') }}
           </span>
-          <div
-            v-if="ms.solarTerms.length"
-            class="flex flex-wrap gap-1"
-          >
+          <div v-if="ms.solarTerms.length" class="flex flex-wrap gap-1">
             <span
               v-for="st in ms.solarTerms"
               :key="st.day"
@@ -143,21 +143,13 @@ function goThisYear() { year.value = new Date().getFullYear() }
               {{ st.label }}
             </span>
           </div>
-          <span
-            v-else
-            class="text-xs text-ink-300 dark:text-paper-600"
-          >—</span>
+          <span v-else class="text-xs text-ink-300 dark:text-paper-600">—</span>
         </div>
 
         <!-- 月相列表 -->
         <div>
-          <span class="text-xs text-ink-400 dark:text-paper-500 block mb-1">
-            月相
-          </span>
-          <div
-            v-if="ms.moonPhases.length"
-            class="flex flex-wrap gap-1"
-          >
+          <span class="text-xs text-ink-400 dark:text-paper-500 block mb-1"> 月相 </span>
+          <div v-if="ms.moonPhases.length" class="flex flex-wrap gap-1">
             <span
               v-for="mp in ms.moonPhases"
               :key="mp.day"
@@ -167,10 +159,7 @@ function goThisYear() { year.value = new Date().getFullYear() }
               {{ mp.name }}
             </span>
           </div>
-          <span
-            v-else
-            class="text-xs text-ink-300 dark:text-paper-600"
-          >—</span>
+          <span v-else class="text-xs text-ink-300 dark:text-paper-600">—</span>
         </div>
       </div>
     </div>

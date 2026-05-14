@@ -15,7 +15,13 @@ import { applyParallax, refractionFromTrueAltitude } from './corrections'
 import { evalVSOP87, earthCoord, planetCoord } from './vsop87'
 import { moonCoord as elpMoonCoord } from './elp-moon'
 import { formatRadian } from './angle-format'
-import { normalizeAngle, normalizeAngleSigned, rotateSpherical, angularSeparation, heliocentricToGeocentric } from './math'
+import {
+  normalizeAngle,
+  normalizeAngleSigned,
+  rotateSpherical,
+  angularSeparation,
+  heliocentricToGeocentric,
+} from './math'
 import type { Spherical } from './math'
 import { meanObliquityP03 } from './precession'
 import { nutationMedium } from './nutation'
@@ -77,9 +83,9 @@ export function greatestElongation(
     r1 = planetElongation(xt, t - dt, i)
     r2 = planetElongation(xt, t, i)
     r3 = planetElongation(xt, t + dt, i)
-    t += ((r1 - r3) / (r1 + r3 - 2 * r2)) * dt / 2
+    t += (((r1 - r3) / (r1 + r3 - 2 * r2)) * dt) / 2
   }
-  r2 += ((r1 - r3) / (r1 + r3 - 2 * r2)) * (r3 - r1) / 8
+  r2 += (((r1 - r3) / (r1 + r3 - 2 * r2)) * (r3 - r1)) / 8
   return [t, r2]
 }
 
@@ -113,7 +119,7 @@ export function planetApparentCoord(
  * @returns 儒略世紀數
  */
 export function planetStation(xt: number, t: number, direct: boolean): number {
-  const hh = (SYNODIC_PERIODS[xt - 1]! / 36525)
+  const hh = SYNODIC_PERIODS[xt - 1]! / 36525
   let v = TWO_PI / hh
   if (xt > 2) v = -v
   for (let i = 0; i < 6; i++) {
@@ -140,7 +146,7 @@ export function planetStation(xt: number, t: number, direct: boolean): number {
     y1 = planetApparentCoord(xt, t - dt, n, g)
     y2 = planetApparentCoord(xt, t, n, g)
     y3 = planetApparentCoord(xt, t + dt, n, g)
-    t += ((y1[0] - y3[0]) / (y1[0] + y3[0] - 2 * y2[0])) * dt / 2
+    t += (((y1[0] - y3[0]) / (y1[0] + y3[0] - 2 * y2[0])) * dt) / 2
   }
   return t
 }
@@ -221,11 +227,7 @@ function planetSunLongDiffOffset(
 }
 
 /** 合日／衝通用內部實作 */
-function planetSunAspectInternal(
-  xt: number,
-  t: number,
-  opposition: boolean,
-): [number, number] {
+function planetSunAspectInternal(xt: number, t: number, opposition: boolean): [number, number] {
   let w0 = Math.PI
   let w1 = 0
   if (opposition) {
@@ -293,12 +295,16 @@ export function planetEphemeris(
     const a = earthCoord(T, 15, 15, 15)
     const moonZ = elpMoonCoord(T, 1, 1, -1)
     const ra = moonZ[2]
-    const T1 = T - ra * LIGHT_TIME_PER_AU_JCY / AU_KM
+    const T1 = T - (ra * LIGHT_TIME_PER_AU_JCY) / AU_KM
     const a2 = earthCoord(T1, 15, 15, 15)
     const moonZ1 = elpMoonCoord(T1, -1, -1, -1)
     rc = moonZ1[2]
 
-    const a2geo: Spherical = [heliocentricToGeocentric(a, a2)[0], heliocentricToGeocentric(a, a2)[1], heliocentricToGeocentric(a, a2)[2] * AU_KM]
+    const a2geo: Spherical = [
+      heliocentricToGeocentric(a, a2)[0],
+      heliocentricToGeocentric(a, a2)[1],
+      heliocentricToGeocentric(a, a2)[2] * AU_KM,
+    ]
     const zMoon = heliocentricToGeocentric(moonZ1, a2geo)
     const rb = zMoon[2]
 

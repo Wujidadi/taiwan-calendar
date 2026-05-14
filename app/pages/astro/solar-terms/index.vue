@@ -12,17 +12,41 @@ useHead({ title: () => t('solarTerms.title') })
 
 // ── 節氣名稱（冬至起，共 24 個） ──
 const SOLAR_TERM_NAMES: string[] = [
-  '冬至', '小寒', '大寒', '立春', '雨水', '驚蟄',
-  '春分', '清明', '穀雨', '立夏', '小滿', '芒種',
-  '夏至', '小暑', '大暑', '立秋', '處暑', '白露',
-  '秋分', '寒露', '霜降', '立冬', '小雪', '大雪',
+  '冬至',
+  '小寒',
+  '大寒',
+  '立春',
+  '雨水',
+  '驚蟄',
+  '春分',
+  '清明',
+  '穀雨',
+  '立夏',
+  '小滿',
+  '芒種',
+  '夏至',
+  '小暑',
+  '大暑',
+  '立秋',
+  '處暑',
+  '白露',
+  '秋分',
+  '寒露',
+  '霜降',
+  '立冬',
+  '小雪',
+  '大雪',
 ]
 
 // ── 年份選擇 ──
 const viewYear = ref(new Date().getFullYear())
 
-function prevYear() { viewYear.value-- }
-function nextYear() { viewYear.value++ }
+function prevYear() {
+  viewYear.value--
+}
+function nextYear() {
+  viewYear.value++
+}
 
 // ── 計算朔氣資料 ──
 interface TermRow {
@@ -133,11 +157,15 @@ const newMoonRows = computed((): MoonRow[] => {
               :key="i"
               class="border-t border-paper-200 dark:border-ink-700 hover:bg-paper-100 dark:hover:bg-ink-800"
             >
-              <td class="py-1.5 pr-3 font-medium text-gold-700 dark:text-gold-400">{{ row.name }}</td>
+              <td class="py-1.5 pr-3 font-medium text-gold-700 dark:text-gold-400">
+                {{ row.name }}
+              </td>
               <td class="py-1.5 font-mono text-xs">{{ row.dateTime }}</td>
             </tr>
             <tr v-if="solarTermRows.length === 0">
-              <td colspan="2" class="py-4 text-center text-ink-400 dark:text-paper-500">{{ t('common.empty') }}</td>
+              <td colspan="2" class="py-4 text-center text-ink-400 dark:text-paper-500">
+                {{ t('common.empty') }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -161,11 +189,15 @@ const newMoonRows = computed((): MoonRow[] => {
               :key="i"
               class="border-t border-paper-200 dark:border-ink-700 hover:bg-paper-100 dark:hover:bg-ink-800"
             >
-              <td class="py-1.5 pr-3 font-medium text-ink-600 dark:text-paper-300">{{ row.name }}</td>
+              <td class="py-1.5 pr-3 font-medium text-ink-600 dark:text-paper-300">
+                {{ row.name }}
+              </td>
               <td class="py-1.5 font-mono text-xs">{{ row.dateTime }}</td>
             </tr>
             <tr v-if="newMoonRows.length === 0">
-              <td colspan="2" class="py-4 text-center text-ink-400 dark:text-paper-500">{{ t('common.empty') }}</td>
+              <td colspan="2" class="py-4 text-center text-ink-400 dark:text-paper-500">
+                {{ t('common.empty') }}
+              </td>
             </tr>
           </tbody>
         </table>

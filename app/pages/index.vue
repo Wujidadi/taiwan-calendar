@@ -15,9 +15,9 @@ useHead({
 
 // ── 今日公曆資訊 ──
 const today = new Date()
-const todayYear  = today.getFullYear()
+const todayYear = today.getFullYear()
 const todayMonth = today.getMonth() + 1
-const todayDay   = today.getDate()
+const todayDay = today.getDate()
 
 // ── 今日農曆資訊 ──
 const lunarMonth = new LunarMonth()
@@ -26,12 +26,12 @@ lunarMonth.calcMonth(todayYear, todayMonth)
 // 取出今日（第 todayDay - 1 個索引）農曆資訊
 const todayLunar = lunarMonth.days[todayDay - 1] as Record<string, unknown>
 
-const lunarDayName   = String(todayLunar['lunarDayName'] ?? '')
+const lunarDayName = String(todayLunar['lunarDayName'] ?? '')
 const lunarMonthName = String(todayLunar['lunarMonthName'] ?? '')
-const lunarLeap      = String(todayLunar['lunarLeap'] ?? '')
+const lunarLeap = String(todayLunar['lunarLeap'] ?? '')
 // 干支紀年（以立春為界）
-const yearGanZhi     = String(todayLunar['lunarYearGanZhi'] ?? lunarMonth.yearGanZhi)
-const zodiacAnimal   = lunarMonth.zodiacAnimal
+const yearGanZhi = String(todayLunar['lunarYearGanZhi'] ?? lunarMonth.yearGanZhi)
+const zodiacAnimal = lunarMonth.zodiacAnimal
 // 今日是否為節氣
 const solarTermLabel = String(todayLunar['solarTermLabel'] ?? '')
 
@@ -40,15 +40,15 @@ const solarTermLabel = String(todayLunar['solarTermLabel'] ?? '')
 const todayJD = (gregorianToJulianDay(todayYear, todayMonth, todayDay + 0.5) as number) - J2000
 
 const sunRTS = sunRiseTransitSet(todayJD, {
-  longitude: 121.5645 * Math.PI / 180,
-  latitude:  25.0329  * Math.PI / 180,
+  longitude: (121.5645 * Math.PI) / 180,
+  latitude: (25.0329 * Math.PI) / 180,
 })
 
 // 將 J2000 儒略日轉換成時間字串（加上台北時區偏移 +8h = 8/24 日）
 const TZ_OFFSET = 8 / 24
-const sunriseStr  = formatTimeOfDay((sunRTS.s + TZ_OFFSET) as never)
-const noonStr     = formatTimeOfDay((sunRTS.z + TZ_OFFSET) as never)
-const sunsetStr   = formatTimeOfDay((sunRTS.j + TZ_OFFSET) as never)
+const sunriseStr = formatTimeOfDay((sunRTS.s + TZ_OFFSET) as never)
+const noonStr = formatTimeOfDay((sunRTS.z + TZ_OFFSET) as never)
+const sunsetStr = formatTimeOfDay((sunRTS.j + TZ_OFFSET) as never)
 
 // ── 紀年標示 ──
 const eraLabel = eraYear(todayYear)
@@ -59,7 +59,6 @@ const moonPhaseName = String(todayLunar['moonPhaseName'] ?? '')
 
 <template>
   <section class="max-w-4xl mx-auto py-8 px-4">
-
     <!-- 今日大標題 -->
     <div class="text-center mb-10">
       <h1 class="codex-heading text-4xl md:text-5xl mb-2 leading-snug">
@@ -87,9 +86,10 @@ const moonPhaseName = String(todayLunar['moonPhaseName'] ?? '')
 
     <!-- 今日天文資訊（日出、日中、日沒、月相） -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-
       <!-- 日出 -->
-      <div class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3">
+      <div
+        class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3"
+      >
         <span class="text-xs text-ink-400 dark:text-paper-500 tracking-widest uppercase">
           {{ t('riseSet.sunrise') }}
         </span>
@@ -99,7 +99,9 @@ const moonPhaseName = String(todayLunar['moonPhaseName'] ?? '')
       </div>
 
       <!-- 日中 -->
-      <div class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3">
+      <div
+        class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3"
+      >
         <span class="text-xs text-ink-400 dark:text-paper-500 tracking-widest uppercase">
           {{ t('riseSet.noon') }}
         </span>
@@ -109,7 +111,9 @@ const moonPhaseName = String(todayLunar['moonPhaseName'] ?? '')
       </div>
 
       <!-- 日沒 -->
-      <div class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3">
+      <div
+        class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3"
+      >
         <span class="text-xs text-ink-400 dark:text-paper-500 tracking-widest uppercase">
           {{ t('riseSet.sunset') }}
         </span>
@@ -119,7 +123,9 @@ const moonPhaseName = String(todayLunar['moonPhaseName'] ?? '')
       </div>
 
       <!-- 月相 -->
-      <div class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3">
+      <div
+        class="flex flex-col items-center gap-1 rounded-lg border border-paper-300 dark:border-paper-700 bg-paper-50 dark:bg-ink-800 py-4 px-3"
+      >
         <span class="text-xs text-ink-400 dark:text-paper-500 tracking-widest uppercase">
           月相
         </span>
@@ -133,7 +139,6 @@ const moonPhaseName = String(todayLunar['moonPhaseName'] ?? '')
 
     <!-- 快速導覽 -->
     <nav class="grid grid-cols-2 md:grid-cols-4 gap-3">
-
       <!-- 月曆 -->
       <NuxtLink
         :to="$localePath('/calendar')"

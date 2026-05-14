@@ -15,16 +15,20 @@ const latDeg = ref(25.0329)
 
 // ── 月份選擇 ──
 const today = new Date()
-const viewYear  = ref(today.getFullYear())
+const viewYear = ref(today.getFullYear())
 const viewMonth = ref(today.getMonth() + 1)
 
 function prevMonth() {
-  if (viewMonth.value === 1) { viewYear.value--; viewMonth.value = 12 }
-  else viewMonth.value--
+  if (viewMonth.value === 1) {
+    viewYear.value--
+    viewMonth.value = 12
+  } else viewMonth.value--
 }
 function nextMonth() {
-  if (viewMonth.value === 12) { viewYear.value++; viewMonth.value = 1 }
-  else viewMonth.value++
+  if (viewMonth.value === 12) {
+    viewYear.value++
+    viewMonth.value = 1
+  } else viewMonth.value++
 }
 
 /** 該月天數 */
@@ -32,7 +36,20 @@ const daysInMonth = computed(() => new Date(viewYear.value, viewMonth.value, 0).
 
 /** 月份標題 */
 const monthTitle = computed(() => {
-  const months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+  const months = [
+    '一月',
+    '二月',
+    '三月',
+    '四月',
+    '五月',
+    '六月',
+    '七月',
+    '八月',
+    '九月',
+    '十月',
+    '十一月',
+    '十二月',
+  ]
   return `${months[viewMonth.value - 1]} ${viewYear.value}`
 })
 
@@ -41,8 +58,8 @@ interface RiseSetRow {
   day: number
   isToday: boolean
   sunrise: string
-  noon:    string
-  sunset:  string
+  noon: string
+  sunset: string
   moonrise: string
   moonTransit: string
   moonset: string
@@ -53,7 +70,7 @@ const TZ_OFFSET = 8 / 24 // UTC+8
 const rows = computed((): RiseSetRow[] => {
   const observer: Observer = {
     longitude: lonDeg.value * DEG_TO_RAD,
-    latitude:  latDeg.value * DEG_TO_RAD,
+    latitude: latDeg.value * DEG_TO_RAD,
   }
   const n = daysInMonth.value
   // 起始儒略日：當月 1 日中午（UTC），轉為 J2000 起算
@@ -64,15 +81,15 @@ const rows = computed((): RiseSetRow[] => {
   return data.map((row, i) => ({
     day: i + 1,
     isToday:
-      viewYear.value  === today.getFullYear() &&
+      viewYear.value === today.getFullYear() &&
       viewMonth.value === today.getMonth() + 1 &&
-      i + 1           === today.getDate(),
-    sunrise:      row.s === '--:--:--' ? '—' : row.s.slice(0, 5),
-    noon:         row.z === '--:--:--' ? '—' : row.z.slice(0, 5),
-    sunset:       row.j === '--:--:--' ? '—' : row.j.slice(0, 5),
-    moonrise:     row.Ms === '--:--:--' ? '—' : row.Ms.slice(0, 5),
-    moonTransit:  row.Mz === '--:--:--' ? '—' : row.Mz.slice(0, 5),
-    moonset:      row.Mj === '--:--:--' ? '—' : row.Mj.slice(0, 5),
+      i + 1 === today.getDate(),
+    sunrise: row.s === '--:--:--' ? '—' : row.s.slice(0, 5),
+    noon: row.z === '--:--:--' ? '—' : row.z.slice(0, 5),
+    sunset: row.j === '--:--:--' ? '—' : row.j.slice(0, 5),
+    moonrise: row.Ms === '--:--:--' ? '—' : row.Ms.slice(0, 5),
+    moonTransit: row.Mz === '--:--:--' ? '—' : row.Mz.slice(0, 5),
+    moonset: row.Mj === '--:--:--' ? '—' : row.Mj.slice(0, 5),
   }))
 })
 </script>
@@ -84,8 +101,12 @@ const rows = computed((): RiseSetRow[] => {
       <h1 class="codex-heading text-2xl mb-4">{{ t('riseSet.title') }}</h1>
 
       <!-- 觀測地點設定 -->
-      <div class="flex flex-wrap gap-4 items-center mb-4 p-3 rounded-lg bg-paper-100 dark:bg-ink-800 border border-paper-300 dark:border-ink-600">
-        <span class="text-sm font-medium text-ink-600 dark:text-paper-300">{{ t('riseSet.observer') }}</span>
+      <div
+        class="flex flex-wrap gap-4 items-center mb-4 p-3 rounded-lg bg-paper-100 dark:bg-ink-800 border border-paper-300 dark:border-ink-600"
+      >
+        <span class="text-sm font-medium text-ink-600 dark:text-paper-300">{{
+          t('riseSet.observer')
+        }}</span>
         <label class="flex items-center gap-1.5 text-sm">
           <span class="text-ink-500 dark:text-paper-400">{{ t('riseSet.longitude') }}</span>
           <input
@@ -95,7 +116,7 @@ const rows = computed((): RiseSetRow[] => {
             min="-180"
             max="180"
             class="w-24 px-2 py-0.5 border border-ink-300 dark:border-paper-600 rounded bg-paper-50 dark:bg-ink-700 text-sm font-mono"
-          >
+          />
           <span class="text-ink-400 dark:text-paper-500">°</span>
         </label>
         <label class="flex items-center gap-1.5 text-sm">
@@ -107,7 +128,7 @@ const rows = computed((): RiseSetRow[] => {
             min="-90"
             max="90"
             class="w-24 px-2 py-0.5 border border-ink-300 dark:border-paper-600 rounded bg-paper-50 dark:bg-ink-700 text-sm font-mono"
-          >
+          />
           <span class="text-ink-400 dark:text-paper-500">°</span>
         </label>
       </div>
@@ -141,7 +162,9 @@ const rows = computed((): RiseSetRow[] => {
             <th class="px-2 py-2 text-center font-medium">{{ t('riseSet.sunrise') }}</th>
             <th class="px-2 py-2 text-center font-medium">{{ t('riseSet.noon') }}</th>
             <th class="px-2 py-2 text-center font-medium">{{ t('riseSet.sunset') }}</th>
-            <th class="px-2 py-2 text-center font-medium border-l border-paper-300 dark:border-ink-600">
+            <th
+              class="px-2 py-2 text-center font-medium border-l border-paper-300 dark:border-ink-600"
+            >
               {{ t('riseSet.moonrise') }}
             </th>
             <th class="px-2 py-2 text-center font-medium">{{ t('riseSet.moonTransit') }}</th>
@@ -157,15 +180,34 @@ const rows = computed((): RiseSetRow[] => {
           >
             <td class="px-2 py-1.5 text-left">
               <span
-                :class="row.isToday ? 'inline-flex items-center justify-center w-6 h-6 rounded-full bg-crimson text-paper-50 text-xs' : ''"
-              >{{ row.day }}</span>
+                :class="
+                  row.isToday
+                    ? 'inline-flex items-center justify-center w-6 h-6 rounded-full bg-crimson text-paper-50 text-xs'
+                    : ''
+                "
+                >{{ row.day }}</span
+              >
             </td>
-            <td class="px-2 py-1.5 text-center font-mono text-amber-700 dark:text-amber-400">{{ row.sunrise }}</td>
-            <td class="px-2 py-1.5 text-center font-mono text-ink-500 dark:text-paper-400">{{ row.noon }}</td>
-            <td class="px-2 py-1.5 text-center font-mono text-orange-700 dark:text-orange-400">{{ row.sunset }}</td>
-            <td class="px-2 py-1.5 text-center font-mono text-blue-600 dark:text-blue-400 border-l border-paper-200 dark:border-ink-700">{{ row.moonrise }}</td>
-            <td class="px-2 py-1.5 text-center font-mono text-ink-400 dark:text-paper-500">{{ row.moonTransit }}</td>
-            <td class="px-2 py-1.5 text-center font-mono text-indigo-600 dark:text-indigo-400">{{ row.moonset }}</td>
+            <td class="px-2 py-1.5 text-center font-mono text-amber-700 dark:text-amber-400">
+              {{ row.sunrise }}
+            </td>
+            <td class="px-2 py-1.5 text-center font-mono text-ink-500 dark:text-paper-400">
+              {{ row.noon }}
+            </td>
+            <td class="px-2 py-1.5 text-center font-mono text-orange-700 dark:text-orange-400">
+              {{ row.sunset }}
+            </td>
+            <td
+              class="px-2 py-1.5 text-center font-mono text-blue-600 dark:text-blue-400 border-l border-paper-200 dark:border-ink-700"
+            >
+              {{ row.moonrise }}
+            </td>
+            <td class="px-2 py-1.5 text-center font-mono text-ink-400 dark:text-paper-500">
+              {{ row.moonTransit }}
+            </td>
+            <td class="px-2 py-1.5 text-center font-mono text-indigo-600 dark:text-indigo-400">
+              {{ row.moonset }}
+            </td>
           </tr>
         </tbody>
       </table>

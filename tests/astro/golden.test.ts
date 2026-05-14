@@ -719,10 +719,10 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
       shuoQiCalculator.calcYear(input as number)
       const result = {
         centralQiList: [...shuoQiCalculator.centralQiList],
-        newMoonList:   [...shuoQiCalculator.newMoonList],
-        leapMonth:     shuoQiCalculator.leapMonth,
-        monthLengths:  [...shuoQiCalculator.monthLengths],
-        monthNames:    [...shuoQiCalculator.monthNames],
+        newMoonList: [...shuoQiCalculator.newMoonList],
+        leapMonth: shuoQiCalculator.leapMonth,
+        monthLengths: [...shuoQiCalculator.monthLengths],
+        monthNames: [...shuoQiCalculator.monthNames],
       }
       expect(result).toBeBitExact(expected)
     })
@@ -754,29 +754,29 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
       const m = new LunarMonth()
       m.calcMonth(year, month)
       const d0 = m.days[0]!
-      const firstTermDay = m.days.slice(0, m.monthLength).find(
-        (d: Record<string, unknown>) => d.solarTermLabel,
-      ) ?? null
+      const firstTermDay =
+        m.days.slice(0, m.monthLength).find((d: Record<string, unknown>) => d.solarTermLabel) ??
+        null
       const result = {
         monthLength: m.monthLength,
         day0: {
-          lunarMonthName:   d0.lunarMonthName,
-          lunarDayName:     d0.lunarDayName,
-          lunarYearGanZhi:  d0.lunarYearGanZhi,
+          lunarMonthName: d0.lunarMonthName,
+          lunarDayName: d0.lunarDayName,
+          lunarYearGanZhi: d0.lunarYearGanZhi,
           lunarYearGanZhi2: d0.lunarYearGanZhi2,
           lunarMonthGanZhi: d0.lunarMonthGanZhi,
-          lunarDayGanZhi:   d0.lunarDayGanZhi,
+          lunarDayGanZhi: d0.lunarDayGanZhi,
           lunarYearHuangdi: d0.lunarYearHuangdi,
-          zodiacSign:       d0.zodiacSign,
-          hijriYear:        d0.hijriYear,
-          hijriMonth:       d0.hijriMonth,
-          hijriDay:         d0.hijriDay,
+          zodiacSign: d0.zodiacSign,
+          hijriYear: d0.hijriYear,
+          hijriMonth: d0.hijriMonth,
+          hijriDay: d0.hijriDay,
         },
         firstSolarTerm: firstTermDay
           ? {
-              dayIndex:       firstTermDay.dayIndex,
+              dayIndex: firstTermDay.dayIndex,
               solarTermLabel: firstTermDay.solarTermLabel,
-              solarTermJD:    firstTermDay.solarTermJD,
+              solarTermJD: firstTermDay.solarTermJD,
             }
           : null,
       }

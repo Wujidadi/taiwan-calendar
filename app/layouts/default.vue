@@ -24,19 +24,19 @@ const themeOptions = [
 
 // 導覽列項目
 const navItems = computed(() => [
-  { labelKey: 'nav.home',               path: '/' },
-  { labelKey: 'nav.calendar.month',     path: '/calendar' },
-  { labelKey: 'nav.calendar.year',      path: '/calendar/year' },
-  { labelKey: 'nav.bazi',               path: '/bazi' },
-  { labelKey: 'nav.astro.solarTerm',    path: '/astro/solar-terms' },
-  { labelKey: 'nav.astro.riseSet',      path: '/astro/rise-set' },
-  { labelKey: 'nav.astro.eclipses',     path: '/astro/eclipses' },
+  { labelKey: 'nav.home', path: '/' },
+  { labelKey: 'nav.calendar.month', path: '/calendar' },
+  { labelKey: 'nav.calendar.year', path: '/calendar/year' },
+  { labelKey: 'nav.bazi', path: '/bazi' },
+  { labelKey: 'nav.astro.solarTerm', path: '/astro/solar-terms' },
+  { labelKey: 'nav.astro.riseSet', path: '/astro/rise-set' },
+  { labelKey: 'nav.astro.eclipses', path: '/astro/eclipses' },
   { labelKey: 'nav.astro.localEclipse', path: '/astro/local-eclipse' },
-  { labelKey: 'nav.astro.ephemeris',    path: '/astro/ephemeris' },
-  { labelKey: 'nav.astro.phenomena',    path: '/astro/phenomena' },
-  { labelKey: 'nav.astro.stars',        path: '/astro/stars' },
-  { labelKey: 'nav.astro.constants',    path: '/astro/constants' },
-  { labelKey: 'nav.tools',              path: '/tools' },
+  { labelKey: 'nav.astro.ephemeris', path: '/astro/ephemeris' },
+  { labelKey: 'nav.astro.phenomena', path: '/astro/phenomena' },
+  { labelKey: 'nav.astro.stars', path: '/astro/stars' },
+  { labelKey: 'nav.astro.constants', path: '/astro/constants' },
+  { labelKey: 'nav.tools', path: '/tools' },
 ])
 
 // 判斷是否為當前路由（首頁精確比對，其餘前綴比對）
@@ -118,10 +118,7 @@ const mobileMenuOpen = ref(false)
       </nav>
 
       <!-- 行動版導覽列（mobileMenuOpen 為 true 時顯示） -->
-      <nav
-        v-if="mobileMenuOpen"
-        class="md:hidden flex flex-col gap-3 text-sm mt-3"
-      >
+      <nav v-if="mobileMenuOpen" class="md:hidden flex flex-col gap-3 text-sm mt-3">
         <NuxtLink
           v-for="item in navItems"
           :key="item.path"
