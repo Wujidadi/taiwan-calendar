@@ -65,6 +65,21 @@ import {
   meanSiderealTimeFromUT,
 } from '#astro/sidereal-time'
 import { earthSSBPosition, earthSSBVelocity } from '#astro/ssb'
+import {
+  earthAngularVelocity,
+  earthLongitude,
+  earthPerihelionAphelion,
+  findSunRiseOrSet,
+  moonAngularVelocity,
+  moonIlluminatedFraction,
+  moonLongitude,
+  moonNode,
+  moonPerigeeApogee,
+  moonSunApparentLongDiff,
+  newMoonOrdinal,
+  sunApparentLongitude,
+} from '#astro/ephemeris'
+import { gravitationalDeflection, rigorousStellarCorrection, sunCoordJ2000 } from '#astro/stellar'
 import { earthCoord, evalVSOP87, planetCoord, plutoCoord } from '#astro/vsop87'
 import type { JulianDay } from '#types/time'
 import { describe, expect, it } from 'bun:test'
@@ -155,6 +170,25 @@ const fixture = fixtureJson as unknown as {
     elpMoon: {
       evalELPMoon: Cases
       moonCoord: Cases
+    }
+    ephemeris: {
+      earthLongitude: Cases
+      moonLongitude: Cases
+      earthAngularVelocity: Cases
+      moonAngularVelocity: Cases
+      moonSunApparentLongDiff: Cases
+      sunApparentLongitude: Cases
+      moonIlluminatedFraction: Cases
+      moonPerigeeApogee: Cases
+      moonNode: Cases
+      earthPerihelionAphelion: Cases
+      newMoonOrdinal: Cases
+      findSunRiseOrSet: Cases
+    }
+    stellar: {
+      sunCoordJ2000: Cases
+      gravitationalDeflection: Cases
+      rigorousStellarCorrection: Cases
     }
   }
 }
@@ -507,5 +541,100 @@ describe('Golden bit-exact 對照（0 ULP）', () => {
     it.each(em.moonCoord)('moonCoord: $description', ({ input, expected }) => {
       expect([...moonCoord(input[0], input[1], input[2], input[3])]).toBeBitExact(expected)
     })
+  })
+
+  describe('ephemeris', () => {
+    const ep = fixture.modules.ephemeris
+
+    it.each(ep.earthLongitude)('earthLongitude: $description', ({ input, expected }) => {
+      expect(earthLongitude(input[0], input[1])).toBeBitExact(expected)
+    })
+
+    it.each(ep.moonLongitude)('moonLongitude: $description', ({ input, expected }) => {
+      expect(moonLongitude(input[0], input[1])).toBeBitExact(expected)
+    })
+
+    it.each(ep.earthAngularVelocity)(
+      'earthAngularVelocity: $description',
+      ({ input, expected }) => {
+        expect(earthAngularVelocity(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(ep.moonAngularVelocity)('moonAngularVelocity: $description', ({ input, expected }) => {
+      expect(moonAngularVelocity(input)).toBeBitExact(expected)
+    })
+
+    it.each(ep.moonSunApparentLongDiff)(
+      'moonSunApparentLongDiff: $description',
+      ({ input, expected }) => {
+        expect(moonSunApparentLongDiff(input[0], input[1], input[2])).toBeBitExact(expected)
+      },
+    )
+
+    it.each(ep.sunApparentLongitude)(
+      'sunApparentLongitude: $description',
+      ({ input, expected }) => {
+        expect(sunApparentLongitude(input[0], input[1])).toBeBitExact(expected)
+      },
+    )
+
+    it.each(ep.moonIlluminatedFraction)(
+      'moonIlluminatedFraction: $description',
+      ({ input, expected }) => {
+        expect(moonIlluminatedFraction(input)).toBeBitExact(expected)
+      },
+    )
+
+    it.each(ep.moonPerigeeApogee)('moonPerigeeApogee: $description', ({ input, expected }) => {
+      expect([...moonPerigeeApogee(input[0], input[1])]).toBeBitExact(expected)
+    })
+
+    it.each(ep.moonNode)('moonNode: $description', ({ input, expected }) => {
+      expect([...moonNode(input[0], input[1])]).toBeBitExact(expected)
+    })
+
+    it.each(ep.earthPerihelionAphelion)(
+      'earthPerihelionAphelion: $description',
+      ({ input, expected }) => {
+        expect([...earthPerihelionAphelion(input[0], input[1])]).toBeBitExact(expected)
+      },
+    )
+
+    it.each(ep.newMoonOrdinal)('newMoonOrdinal: $description', ({ input, expected }) => {
+      expect(newMoonOrdinal(input)).toBeBitExact(expected)
+    })
+
+    it.each(ep.findSunRiseOrSet)('findSunRiseOrSet: $description', ({ input, expected }) => {
+      expect(findSunRiseOrSet(input[0], input[1], input[2], input[3])).toBeBitExact(expected)
+    })
+  })
+
+  describe('stellar', () => {
+    const st = fixture.modules.stellar
+
+    it.each(st.sunCoordJ2000)('sunCoordJ2000: $description', ({ input, expected }) => {
+      expect([...sunCoordJ2000(input[0], input[1])]).toBeBitExact(expected)
+    })
+
+    it.each(st.gravitationalDeflection)(
+      'gravitationalDeflection: $description',
+      ({ input, expected }) => {
+        const [z, a] = input
+        expect([...gravitationalDeflection([z[0], z[1], z[2]], [a[0], a[1], a[2]])]).toBeBitExact(
+          expected,
+        )
+      },
+    )
+
+    it.each(st.rigorousStellarCorrection)(
+      'rigorousStellarCorrection: $description',
+      ({ input, expected }) => {
+        const [z, v, mode] = input
+        expect([
+          ...rigorousStellarCorrection([z[0], z[1], z[2]], [v[0], v[1], v[2]], mode),
+        ]).toBeBitExact(expected)
+      },
+    )
   })
 })

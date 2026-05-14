@@ -179,6 +179,13 @@ export function formatTimeOfDay(jd: JulianDay): string {
   return `${pad(h, 2)}:${pad(mi, 2)}:${pad(total, 2)}`
 }
 
+/**
+ * 儒略日 → 字串（秒精度）：代理 `formatGregorian(julianDayToGregorian(jd))`。
+ */
+export function formatJD(jd: JulianDay): string {
+  return formatGregorian(julianDayToGregorian(jd))
+}
+
 /** 內部 zero-pad helper */
 function pad(n: number, width: number): string {
   const str = String(n)
