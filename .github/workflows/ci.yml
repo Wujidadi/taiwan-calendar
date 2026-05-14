@@ -100,9 +100,10 @@ jobs:
 
       - name: 驗證禁字（防止源碼洩漏）
         run: |
+          # 注意：此 workflow 檔本身含禁字 grep 模式，故將 .github/ 排除在外
           ! grep -riE "sxwnl|perpetual-calendar|壽星|翻新" \
             --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.nuxt \
-            --exclude-dir=.output --exclude-dir=test-results \
+            --exclude-dir=.output --exclude-dir=test-results --exclude-dir=.github \
             . 2>/dev/null && echo "✓ 無禁字" || (echo "✗ 發現禁字" && exit 1)
 
       - name: Upload artifact
