@@ -7,7 +7,6 @@
 import {
   AU_KM,
   LIGHT_TIME_PER_AU_JCY,
-  RAD_TO_ARCSEC,
   SPEED_OF_LIGHT_KM_S,
   SYNODIC_PERIODS,
   TWO_PI,
@@ -97,7 +96,7 @@ export function planetApparentCoord(
   n: number,
   lightTimeCy: number,
 ): Spherical {
-  let a = planetCoord(0, t - lightTimeCy, n, n, n)
+  const a = planetCoord(0, t - lightTimeCy, n, n, n)
   let z = planetCoord(xt, t - lightTimeCy, n, n, n)
   z = heliocentricToGeocentric(z, a)
   let E = meanObliquityP03(t)
@@ -157,7 +156,7 @@ function moonPlanetRADiff(
   E: number,
   g: readonly [number, number, number, number],
 ): readonly [number, number, number, number] {
-  let a = planetCoord(0, t - g[1], n, n, n)
+  const a = planetCoord(0, t - g[1], n, n, n)
   let p = planetCoord(xt, t - g[1], n, n, n)
   let m = elpMoonCoord(t - g[0], n, n, n)
   p = heliocentricToGeocentric(p, a)
@@ -208,9 +207,9 @@ function planetSunLongDiffOffset(
   ts: number,
   tp: number,
 ): readonly [number, number, number, number] {
-  let a = planetCoord(0, t - tp, n, n, n)
+  const a = planetCoord(0, t - tp, n, n, n)
   let p = planetCoord(xt, t - tp, n, n, n)
-  let s = planetCoord(0, t - ts, n, n, n)
+  const s = planetCoord(0, t - ts, n, n, n)
   const sun: Spherical = [s[0] + Math.PI, -s[1], s[2]]
   p = heliocentricToGeocentric(p, a)
   return [

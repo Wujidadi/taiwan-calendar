@@ -8,7 +8,6 @@ import {
   EARTH_EQUATORIAL_RADIUS_KM,
   EARTH_POLAR_EQ_RATIO,
   EARTH_POLAR_EQ_RATIO_SQ,
-  HALF_PI,
   J2000,
   MOON_EARTH_RATIO_PENUMBRA,
   MOON_EARTH_RATIO_UMBRA,
@@ -31,7 +30,6 @@ import type { JulianDay } from '#types/time'
 import {
   normalizeAngle,
   normalizeAngleSigned,
-  balancedMod,
   sphericalToCartesian,
   cartesianToSpherical,
   rotateSpherical,
@@ -46,18 +44,15 @@ import { moonCoord } from './elp-moon'
 import { meanSiderealTimeFromUT, meanSiderealTimeFromTD } from './sidereal-time'
 import {
   moonSunDiffToTimeFaster,
-  moonAngularVelocity,
-  earthAngularVelocity,
   findSunRiseOrSet,
   newMoonOrdinal,
 } from './ephemeris'
 import {
-  lineEarthIntersect,
   lineEarthIntersectBessel,
   lineEllipseIntersect,
   ellipseCircleIntersect,
 } from './eclipse-geometry'
-import { formatRadian, formatRadianToMinute } from './angle-format'
+import { formatRadianToMinute } from './angle-format'
 
 /** 日食快速搜索結果 */
 export interface FastEclipseResult {
@@ -65,7 +60,7 @@ export interface FastEclipseResult {
   jd: number
   /** 低精度朔時刻 */
   jdSuo: number
-  /** 可信度（0 = 臨界，需高精度複驗）*/
+  /** 可信度（0 = 臨界，需高精度複驗） */
   ac: number
   /** 日食類型：N=無、P=偏、T=全、A=環、H=全環食 等 */
   lx: string
@@ -80,14 +75,13 @@ export function fastSolarEclipseSearch(jd: number): FastEclipseResult {
   let t: number
   let t2: number
   let t3: number
-  let t4: number
 
   const W = Math.floor((jd + 8) / 29.5306) * Math.PI * 2
 
   t = (W + 1.08472) / 7771.37714500204
   re.jd = re.jdSuo = t * 36525
 
-  t2 = t * t; t3 = t2 * t; t4 = t3 * t
+  t2 = t * t; t3 = t2 * t; const t4 = t3 * t
   const L0
     = (93.2720993 + 483202.0175273 * t - 0.0034029 * t2 - t3 / 3526000 + t4 / 863310000)
       / 180
@@ -97,7 +91,7 @@ export function fastSolarEclipseSearch(jd: number): FastEclipseResult {
 
   t -= (-0.0000331 * t * t + 0.10976 * Math.cos(0.785 + 8328.6914 * t)) / 7771
   t2 = t * t
-  let L
+  const L
     = -1.084719
       + 7771.377145013 * t
       - 0.0000331 * t2
@@ -377,11 +371,13 @@ export class SolarEclipseBesselian {
     const rotated = rotateSpherical(r, -I[1]!)
     return sphericalToCartesian(rotated)
   }
+
   bse2cd(z: readonly [number, number, number], I: readonly number[]): Spherical {
     const r = cartesianToSpherical(z)
     const rotated = rotateSpherical(r, I[1]!)
     return [normalizeAngle(rotated[0] + I[0]!), rotated[1], rotated[2]]
   }
+
   bse2db(z: readonly [number, number, number], I: readonly number[], ellipsoid: boolean): readonly [number, number, number] {
     const r = cartesianToSpherical(z)
     const rotated = rotateSpherical(r, I[1]!)
@@ -389,6 +385,7 @@ export class SolarEclipseBesselian {
     const lat = ellipsoid ? Math.atan(Math.tan(rotated[1]) / EARTH_POLAR_EQ_RATIO_SQ) : rotated[1]
     return [lon, lat, rotated[2]]
   }
+
   bseXY2db(x: number, y: number, I: readonly number[], ellipsoid: boolean): readonly [number, number] {
     const b = ellipsoid ? EARTH_POLAR_EQ_RATIO : 1
     const F = lineEarthIntersectBessel(x, y, 2, x, y, 0, b, 1, I as [number, number, number])
@@ -456,7 +453,7 @@ export class SolarEclipseBesselian {
     const I = this.bse(jdCenter)
 
     const F = lineEarthIntersectBessel(xc, yc, 2, xc, yc, 0, EARTH_POLAR_EQ_RATIO, 1, I as [number, number, number])
-    let Bc = this.rSM(zc)
+    const Bc = this.rSM(zc)
     let Bp = this.rSM(zc); let B2 = Bc; let B3 = Bc
     if (F.W !== 100) Bp = this.rSM(zc - (F.R2 ?? 0))
     if (d < 1) {
@@ -521,6 +518,7 @@ export class SolarEclipseBesselian {
   private push(z: readonly [number, number], p: number[]): void {
     p.push(z[0], z[1])
   }
+
   private elmCpy(a: number[], n: number, b: number[], m: number): void {
     if (!b.length) return
     if (n === -2) n = a.length
@@ -704,13 +702,13 @@ export class SolarEclipseBesselian {
 
 /** 地方日食計算結果 */
 export interface LocalEclipseResult {
-  /** 時刻表 [食甚, 初虧, 復圓, 食既, 生光]（J2000 起算儒略日；0 表無效）*/
+  /** 時刻表 [食甚, 初虧, 復圓, 食既, 生光]（J2000 起算儒略日；0 表無效） */
   sT: readonly number[]
   /** 食分 */
   sf: number
-  /** 食分（日出後的食分）*/
+  /** 食分（日出後的食分） */
   sf2: number
-  /** 食分（日沒後的食分）*/
+  /** 食分（日沒後的食分） */
   sf3: number
   /** 食分符號標記 */
   sflx: string
@@ -718,19 +716,19 @@ export interface LocalEclipseResult {
   b1: number
   /** 食甚總持續時間 */
   dur: number
-  /** 初虧位置角（北點起算）*/
+  /** 初虧位置角（北點起算） */
   P1: number
-  /** 初虧位置角（頂點起算）*/
+  /** 初虧位置角（頂點起算） */
   V1: number
-  /** 復圓位置角（北點起算）*/
+  /** 復圓位置角（北點起算） */
   P2: number
-  /** 復圓位置角（頂點起算）*/
+  /** 復圓位置角（頂點起算） */
   V2: number
-  /** 日出（UT）*/
+  /** 日出（UT） */
   sun_s: number
-  /** 日沒（UT）*/
+  /** 日沒（UT） */
   sun_j: number
-  /** 類型（'偏'、'全'、'環'、''）*/
+  /** 類型（'偏'、'全'、'環'、''） */
   LX: string
 }
 

@@ -3,9 +3,8 @@
 import { TWO_PI } from '../astro/constants'
 import { deltaT } from '../astro/delta-t'
 import { formatTimeOfDay } from '../astro/julian-day'
-import { sunApparentLongToTime, moonSunDiffToTime } from '../astro/ephemeris'
+import { sunApparentLongToTime, moonSunDiffToTime, sunApparentLongitude  } from '../astro/ephemeris'
 import { equationOfTimeFast } from '../astro/sidereal-time'
-import { sunApparentLongitude } from '../astro/ephemeris'
 
 // ── 干支與農曆字串常數 ──
 

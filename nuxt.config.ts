@@ -61,17 +61,6 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2026-05-13',
 
-  // Sitemap：三語系全站地圖
-  sitemap: {
-    sitemaps: true,
-    autoLastmod: true,
-    xsl: false,
-    i18n: {
-      locales: ['zh-tw', 'zh-cn', 'en'],
-      routesNameSeparator: '___',
-    },
-  },
-
   // Nitro：GitHub Pages 部署
   nitro: {
     preset: 'github-pages',
@@ -145,5 +134,16 @@ export default defineNuxtConfig({
         ],
       },
     ],
+  },
+
+  // Sitemap：三語系全站地圖
+  sitemap: {
+    sitemaps: true,
+    autoLastmod: true,
+    xsl: false,
+    i18n: {
+      locales: ['zh-tw', 'zh-cn', 'en'],
+      routesNameSeparator: '___',
+    },
   },
 })

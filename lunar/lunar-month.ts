@@ -215,6 +215,7 @@ export class LunarMonth {
       ob['moonPhaseJD']      = d
       ob['moonPhaseTimeStr'] = formatTimeOfDay(d as never)
       if (D + 5 >= Bd0 + Bdn) break
+    // eslint-disable-next-line no-constant-condition
     } while (true)
 
     // 節氣查找
@@ -232,6 +233,7 @@ export class LunarMonth {
       ob['solarTermJD']      = d
       ob['solarTermTimeStr'] = formatTimeOfDay(d as never)
       if (D + 12 >= Bd0 + Bdn) break
+    // eslint-disable-next-line no-constant-condition
     } while (true)
   }
 }
