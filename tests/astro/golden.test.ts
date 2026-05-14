@@ -699,9 +699,9 @@ describe('Golden 高精度對照（≤4 ULP）', () => {
       },
     )
 
-    // fixture は macOS/ARM64（JavaScriptCore）で生成。Linux/x86-64 では
-    // 多数フィールドで超越関数末位差が 4 ULP を大幅超過（最大 151M ULP）するため
-    // CI では空配列を渡してケースを生成せず、ローカル macOS での回帰検出に限定する。
+    // fixture 由 macOS/ARM64（JavaScriptCore）生成，Linux/x86-64 上多個欄位因
+    // 超越函式末位差異超過 4 ULP 上限（最大 151M ULP），難以逐欄排除。
+    // CI 傳入空陣列不生成任何 case；回歸檢測限定在本機 macOS 執行。
     it.each(process.env.CI ? [] : se.besselianFeature)(
       'besselianFeature: $description',
       ({ input, expected }) => {
